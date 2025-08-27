@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unblocked Games Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a1a;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #6e45e2, #88d3ce);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #88d3ce;
+            margin-bottom: 30px;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: linear-gradient(45deg, #6e45e2, #88d3ce);
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #88d3ce;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .featured-games {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .game-card {
+            background: rgba(25, 25, 50, 0.4);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-thumb {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(45deg, #2d2b55, #45437b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+
+        .game-info {
+            padding: 20px;
+        }
+
+        .game-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #88d3ce;
+        }
+
+        .game-desc {
+            color: #aaa;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .play-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #6e45e2, #88d3ce);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .all-games {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .game-item {
+            background: rgba(25, 25, 50, 0.4);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .game-item:hover {
+            transform: scale(1.05);
+        }
+
+        .game-item-thumb {
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(45deg, #2d2b55, #45437b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .game-item-info {
+            padding: 15px;
+        }
+
+        .game-item-title {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #88d3ce;
+        }
+
+        .game-item-play {
+            display: inline-block;
+            padding: 8px 15px;
+            background: linear-gradient(45deg, #6e45e2, #88d3ce);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .game-item-play:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            color: #88d3ce;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .featured-games {
+                grid-template-columns: 1fr;
+            }
+            
+            .all-games {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <header>
+            <h1 class="logo">GameHub</h1>
+            <p class="tagline">Play the best unblocked games for free!</p>
+        </header>
+        
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search games...">
+            <button class="search-btn"><i class="fas fa-search"></i> Search</button>
+        </div>
+        
+        <section class="featured-section">
+            <h2 class="section-title">Featured Games</h2>
+            <div class="featured-games">
+                <!-- Game 1 -->
+                <div class="game-card">
+                    <div class="game-thumb">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Space Adventure</h3>
+                        <p class="game-desc">Navigate through space and avoid asteroids in this exciting adventure game.</p>
+                        <button class="play-btn" onclick="openGame('space-adventure.html')">Play Now</button>
+                    </div>
+                </div>
+                
+                <!-- Game 2 -->
+                <div class="game-card">
+                    <div class="game-thumb">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Puzzle Master</h3>
+                        <p class="game-desc">Solve challenging puzzles and test your logical thinking skills.</p>
+                        <button class="play-btn" onclick="openGame('puzzle-master.html')">Play Now</button>
+                    </div>
+                </div>
+                
+                <!-- Game 3 -->
+                <div class="game-card">
+                    <div class="game-thumb">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Racing Extreme</h3>
+                        <p class="game-desc">Race against the clock in this high-speed racing game with stunning visuals.</p>
+                        <button class="play-btn" onclick="openGame('racing-extreme.html')">Play Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="all-games-section">
+            <h2 class="section-title">All Games</h2>
+            <div class="all-games">
+                <!-- Game items will be added here -->
+                <!-- I've added 8 filler games, you can add more as needed -->
+                <div class="game-item">
+                    <div class="game-item-thumb">
+                        <i class="fas fa-chess"></i>
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Chess Master</h3>
+                        <button class="game-item-play" onclick="openGame('chess-master.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item">
+                    <div class="game-item-thumb">
+                        <i class="fas fa-basketball-ball"></i>
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Basketball Pro</h3>
+                        <button class="game-item-play" onclick="openGame('basketball-pro.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item">
+                    <div class="game-item-thumb">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Endless Runner</h3>
+                        <button class="game-item-play" onclick="openGame('endless-runner.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item">
+                    <div class="game-item-thumb">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Magic Match</h3>
+                        <button class="game-item-play" onclick="openGame('magic-match.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item">
+                    <div class="game-item-thumb">
+                        <i class="fas fa-futbol"></i>
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Soccer Stars</h3>
+                        <button class="game-item-play" onclick="openGame('soccer-stars.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item">
+                    <div class="game-item-thumb">
+                        <i class="fas fa-ghost"></i>
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Ghost Hunter</h3>
+                        <button class="game-item-play" onclick="openGame('ghost-hunter.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item">
+                    <div class="game-item-thumb">
+                        <i class="fas fa-dragon"></i>
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Dragon Quest</h3>
+                        <button class="game-item-play" onclick="openGame('dragon-quest.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item">
+                    <div class="game-item-thumb">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Shield Defense</h3>
+                        <button class="game-item-play" onclick="openGame('shield-defense.html')">Play</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>GameHub &copy; 2023 - All rights reserved</p>
+            <p>This site is for educational purposes only</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particles.js configuration for the animated background
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#6e45e2" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#88d3ce",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // Function to open games in a new about:blank tab
+        function openGame(url) {
+            // Create a new window with about:blank
+            const newWindow = window.open('about:blank', '_blank');
+            
+            // Create a basic HTML structure in the new window
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Loading Game...</title>
+                    <style>
+                        body {
+                            background: #0a0a1a;
+                            color: white;
+                            font-family: Arial, sans-serif;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin: 0;
+                        }
+                        .loading {
+                            text-align: center;
+                        }
+                        .spinner {
+                            border: 5px solid rgba(255, 255, 255, 0.3);
+                            border-radius: 50%;
+                            border-top: 5px solid #6e45e2;
+                            width: 50px;
+                            height: 50px;
+                            animation: spin 1s linear infinite;
+                            margin: 0 auto 20px;
+                        }
+                        @keyframes spin {
+                            0% { transform: rotate(0deg); }
+                            100% { transform: rotate(360deg); }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading game, please wait...</p>
+                    </div>
+                </body>
+                </html>
+            `);
+            
+            // After a short delay, redirect to the actual game
+            setTimeout(() => {
+                // For demonstration, we're using a placeholder page
+                // In your actual implementation, you would use your game's HTML file
+                newWindow.location.href = url;
+            }, 1500);
+            
+            // Fallback in case the game doesn't load
+            setTimeout(() => {
+                if (newWindow.closed || !newWindow.document.body.innerHTML.length) {
+                    return;
+                }
+                try {
+                    if (newWindow.document.querySelector('.loading')) {
+                        newWindow.document.body.innerHTML = `
+                            <div style="padding: 50px; text-align: center;">
+                                <h1>Game Load Error</h1>
+                                <p>There was a problem loading the game. Please make sure the game file exists.</p>
+                                <p>Game file: ${url}</p>
+                                <button onclick="window.location.reload()">Try Again</button>
+                            </div>
+                        `;
+                    }
+                } catch (e) {
+                    console.error('Error checking game load status:', e);
+                }
+            }, 5000);
+        }
+
+        // Simple search functionality
+        document.querySelector('.search-btn').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-bar').value.toLowerCase();
+            alert(`Search functionality would look for: ${searchTerm}\n\nIn a full implementation, this would filter the games list.`);
+        });
+
+        // Allow pressing Enter to search
+        document.querySelector('.search-bar').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.search-btn').click();
+            }
+        });
+    </script>
+</body>
+</html>
