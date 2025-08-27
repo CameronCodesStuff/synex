@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synex - Game Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a1a;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #6e45e2, #88d3ce);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #88d3ce;
+            margin-bottom: 30px;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: linear-gradient(45deg, #6e45e2, #88d3ce);
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #88d3ce;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .featured-games {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .game-card {
+            background: rgba(25, 25, 50, 0.4);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-thumb {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(45deg, #2d2b55, #45437b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            overflow: hidden;
+        }
+
+        .game-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-info {
+            padding: 20px;
+        }
+
+        .game-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #88d3ce;
+        }
+
+        .game-desc {
+            color: #aaa;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .play-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #6e45e2, #88d3ce);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .all-games {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .game-item {
+            background: rgba(25, 25, 50, 0.4);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .game-item:hover {
+            transform: scale(1.05);
+        }
+
+        .game-item-thumb {
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(45deg, #2d2b55, #45437b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            overflow: hidden;
+        }
+
+        .game-item-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-item-info {
+            padding: 15px;
+        }
+
+        .game-item-title {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #88d3ce;
+        }
+
+        .game-item-play {
+            display: inline-block;
+            padding: 8px 15px;
+            background: linear-gradient(45deg, #6e45e2, #88d3ce);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .game-item-play:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #88d3ce;
+            font-size: 1.2rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            color: #88d3ce;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .featured-games {
+                grid-template-columns: 1fr;
+            }
+            
+            .all-games {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <header>
+            <h1 class="logo">Synex</h1>
+            <p class="tagline">Play the best unblocked games for free!</p>
+        </header>
+        
+        <div class="search-container">
+            <input type="text" class="search-bar" id="searchInput" placeholder="Search games...">
+            <button class="search-btn" id="searchButton"><i class="fas fa-search"></i> Search</button>
+        </div>
+        
+        <section class="featured-section">
+            <h2 class="section-title">Featured Games</h2>
+            <div class="featured-games" id="featuredGames">
+                <!-- Game 1 -->
+                <div class="game-card" data-title="minecraft" data-desc="play minecraft in your browser">
+                    <div class="game-thumb">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Minecraft">
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Minecraft 1.5.2</h3>
+                        <p class="game-desc">Play Minecraft in your browser!</p>
+                        <button class="play-btn" onclick="openGame('Minecraft1.5.2.html')">Play Now</button>
+                    </div>
+                </div>
+                
+                <!-- Game 2 -->
+                <div class="game-card" data-title="slope" data-desc="roll down a hill and dodge obstacles">
+                    <div class="game-thumb">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Slope">
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Slope</h3>
+                        <p class="game-desc">Roll down a hill and dodge obstacles</p>
+                        <button class="play-btn" onclick="openGame('Slope.html')">Play Now</button>
+                    </div>
+                </div>
+                
+                <!-- Game 3 -->
+                <div class="game-card" data-title="slitherio" data-desc="multiplayer snake game">
+                    <div class="game-thumb">
+                        <img src="https://images.unsplash.com/photo-1614294149710-32eec425a251?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Slither.io">
+                    </div>
+                    <div class="game-info">
+                        <h3 class="game-title">Slither.io</h3>
+                        <p class="game-desc">Multiplayer snake game. Grow your snake by consuming orbs.</p>
+                        <button class="play-btn" onclick="openGame('slither.html')">Play Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="all-games-section">
+            <h2 class="section-title">All Games</h2>
+            <div class="all-games" id="allGames">
+                <!-- Game items will be added here -->
+                <div class="game-item" data-title="shell shockers" data-desc="multiplayer egg combat game">
+                    <div class="game-item-thumb">
+                        <img src="https://images.unsplash.com/photo-1551103782-8ab07afd45c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Shell Shockers">
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Shell Shockers</h3>
+                        <button class="game-item-play" onclick="openGame('shellshock.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item" data-title="drift hunters" data-desc="car drifting game">
+                    <div class="game-item-thumb">
+                        <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Drift Hunters">
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Drift Hunters</h3>
+                        <button class="game-item-play" onclick="openGame('https://x12maybeheat.vercel.app/games/drifthunters/index.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item" data-title="drift boss" data-desc="car drifting game">
+                    <div class="game-item-thumb">
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Drift Boss">
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Drift Boss</h3>
+                        <button class="game-item-play" onclick="openGame('https://www.hoodamath.com/mobile/games/drift-boss/game.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item" data-title="magic match" data-desc="puzzle matching game">
+                    <div class="game-item-thumb">
+                        <img src="https://images.unsplash.com/photo-1549056572-75914d6d7e1a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Magic Match">
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Magic Match</h3>
+                        <button class="game-item-play" onclick="openGame('magic-match.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item" data-title="soccer stars" data-desc="soccer game">
+                    <div class="game-item-thumb">
+                        <img src="https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Soccer Stars">
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Soccer Stars</h3>
+                        <button class="game-item-play" onclick="openGame('soccer-stars.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item" data-title="ghost hunter" data-desc="ghost hunting game">
+                    <div class="game-item-thumb">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Ghost Hunter">
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Ghost Hunter</h3>
+                        <button class="game-item-play" onclick="openGame('ghost-hunter.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item" data-title="dragon quest" data-desc="adventure game">
+                    <div class="game-item-thumb">
+                        <img src="https://images.unsplash.com/photo-1590254553790-2a5d5c8e0c6c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Dragon Quest">
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Dragon Quest</h3>
+                        <button class="game-item-play" onclick="openGame('dragon-quest.html')">Play</button>
+                    </div>
+                </div>
+                
+                <div class="game-item" data-title="shield defense" data-desc="defense strategy game">
+                    <div class="game-item-thumb">
+                        <img src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Shield Defense">
+                    </div>
+                    <div class="game-item-info">
+                        <h3 class="game-item-title">Shield Defense</h3>
+                        <button class="game-item-play" onclick="openGame('shield-defense.html')">Play</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>Synex &copy; 2023 - All rights reserved</p>
+            <p>This site is for educational purposes only</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Particles.js configuration for the animated background
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#6e45e2" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#88d3ce",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // Function to open games in a new about:blank tab
+        function openGame(url) {
+            // Create a new window with about:blank
+            const newWindow = window.open('about:blank', '_blank');
+            
+            // Create a basic HTML structure in the new window
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Loading Game...</title>
+                    <style>
+                        body {
+                            background: #0a0a1a;
+                            color: white;
+                            font-family: Arial, sans-serif;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin: 0;
+                        }
+                        .loading {
+                            text-align: center;
+                        }
+                        .spinner {
+                            border: 5px solid rgba(255, 255, 255, 0.3);
+                            border-radius: 50%;
+                            border-top: 5px solid #6e45e2;
+                            width: 50px;
+                            height: 50px;
+                            animation: spin 1s linear infinite;
+                            margin: 0 auto 20px;
+                        }
+                        @keyframes spin {
+                            0% { transform: rotate(0deg); }
+                            100% { transform: rotate(360deg); }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading game, please wait...</p>
+                    </div>
+                </body>
+                </html>
+            `);
+            
+            // After a short delay, redirect to the actual game
+            setTimeout(() => {
+                // For demonstration, we're using a placeholder page
+                // In your actual implementation, you would use your game's HTML file
+                newWindow.location.href = url;
+            }, 1500);
+            
+            // Fallback in case the game doesn't load
+            setTimeout(() => {
+                if (newWindow.closed || !newWindow.document.body.innerHTML.length) {
+                    return;
+                }
+                try {
+                    if (newWindow.document.querySelector('.loading')) {
+                        newWindow.document.body.innerHTML = `
+                            <div style="padding: 50px; text-align: center;">
+                                <h1>Game Load Error</h1>
+                                <p>There was a problem loading the game. Please make sure the game file exists.</p>
+                                <p>Game file: ${url}</p>
+                                <button onclick="window.location.reload()">Try Again</button>
+                            </div>
+                        `;
+                    }
+                } catch (e) {
+                    console.error('Error checking game load status:', e);
+                }
+            }, 5000);
+        }
+
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const featuredGames = document.getElementById('featuredGames');
+            const allGames = document.getElementById('allGames');
+            const gameCards = document.querySelectorAll('.game-card, .game-item');
+            
+            // Function to filter games based on search input
+            function filterGames() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                let hasResults = false;
+                
+                gameCards.forEach(card => {
+                    const title = card.getAttribute('data-title');
+                    const desc = card.getAttribute('data-desc');
+                    
+                    if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+                        card.style.display = '';
+                        hasResults = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Show no results message if no games match the search
+                let noResultsMsg = document.querySelector('.no-results');
+                if (!hasResults) {
+                    if (!noResultsMsg) {
+                        noResultsMsg = document.createElement('div');
+                        noResultsMsg.className = 'no-results';
+                        noResultsMsg.textContent = 'No games found matching your search.';
+                        featuredGames.parentNode.appendChild(noResultsMsg);
+                    }
+                } else if (noResultsMsg) {
+                    noResultsMsg.remove();
+                }
+            }
+            
+            // Event listeners for search
+            searchButton.addEventListener('click', filterGames);
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    filterGames();
+                }
+            });
+            
+            // Clear search when the user clears the input
+            searchInput.addEventListener('input', function() {
+                if (searchInput.value === '') {
+                    gameCards.forEach(card => {
+                        card.style.display = '';
+                    });
+                    
+                    const noResultsMsg = document.querySelector('.no-results');
+                    if (noResultsMsg) {
+                        noResultsMsg.remove();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
