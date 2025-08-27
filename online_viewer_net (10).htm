@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Password Wall</title>
+<style>
+  body { background-color: black; color: white; font-family: Arial; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; }
+  #content { display:none; margin-top:20px; }
+  button { margin:5px; padding:10px 20px; background:#333; color:white; border:none; cursor:pointer; }
+  button:hover { background:#555; }
+  iframe { width:80vw; height:60vh; margin-top:20px; border:2px solid white; }
+</style>
+</head>
+<body>
+
+<h1>Enter Password</h1>
+<input type="password" id="passwordInput" placeholder="Password">
+<button onclick="checkPassword()">Submit</button>
+
+<div id="content">
+  <h2>Links</h2>
+  <button onclick="window.open('https://t3rm-exploit-dump.vercel.app/', '_blank')">Open Exploit Dump</button>
+  <button onclick="window.open('https://chromebook-utilities.pages.dev/', '_blank')">Open Chromebook Utilities</button>
+  <h2>Embed</h2>
+  <button onclick="embedSite('https://t3rm-exploit-dump.vercel.app/')">Embed Exploit Dump</button>
+  <button onclick="embedSite('https://chromebook-utilities.pages.dev/')">Embed Chromebook Utilities</button>
+  <iframe id="iframeDisplay" style="display:none;"></iframe>
+</div>
+
+<script>
+  // Simple hidden password check (obfuscates 'secret123')
+  const hidden = [115, 101, 99, 114, 101, 116, 49, 50, 51]; // ASCII codes for 'secret123'
+
+  function checkPassword() {
+    const input = document.getElementById('passwordInput').value;
+    let correct = true;
+    if(input.length !== hidden.length) correct = false;
+    else {
+      for(let i=0;i<hidden.length;i++){
+        if(input.charCodeAt(i)!==hidden[i]) correct=false;
+      }
+    }
+    if(correct){
+      document.getElementById('content').style.display='block';
+    } else {
+      alert('Incorrect password!');
+    }
+  }
+
+  function embedSite(url) {
+    const iframe = document.getElementById('iframeDisplay');
+    iframe.src = url;
+    iframe.style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
