@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShadowScripts</title>
+    <title>Shadow Scripts</title>
     <link rel="icon" href="https://avatars.githubusercontent.com/u/151978475?v=4" type="image/png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -316,35 +316,59 @@
                     // Create the GitHub raw content URL
                     const rawUrl = `https://raw.githubusercontent.com/CameronCodesStuff/synex/main/${filename}`;
                     
-                    // Create a temporary anchor element to trigger the download
-                    const a = document.createElement('a');
-                    a.href = rawUrl;
-                    a.download = filename;
-                    a.style.display = 'none';
-                    document.body.appendChild(a);
-                    
-                    // Use a timeout to ensure the element is properly added to the DOM
-                    setTimeout(() => {
-                        a.click();
-                        
-                        // Clean up
-                        document.body.removeChild(a);
-                        
-                        // Reset button text
-                        setTimeout(() => {
-                            this.innerHTML = originalText;
-                            loading.style.display = 'none';
+                    // Fetch the file content
+                    fetch(rawUrl)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.text();
+                        })
+                        .then(content => {
+                            // Create a Blob from the content
+                            const blob = new Blob([content], { type: 'text/plain' });
+                            const url = URL.createObjectURL(blob);
                             
-                            // Show downloaded confirmation
-                            this.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
-                            this.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+                            // Create a temporary anchor element to trigger the download
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = filename;
+                            a.style.display = 'none';
+                            document.body.appendChild(a);
+                            
+                            // Trigger the download
+                            a.click();
+                            
+                            // Clean up
+                            setTimeout(() => {
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
+                                
+                                // Reset button text
+                                this.innerHTML = originalText;
+                                loading.style.display = 'none';
+                                
+                                // Show downloaded confirmation
+                                this.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
+                                this.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+                                
+                                setTimeout(() => {
+                                    this.innerHTML = originalText;
+                                    this.style.background = 'linear-gradient(135deg, var(--accent), var(--accent-glow))';
+                                }, 2000);
+                            }, 100);
+                        })
+                        .catch(error => {
+                            console.error('Error downloading file:', error);
+                            this.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
+                            this.style.background = 'linear-gradient(135deg, #f44336, #b71c1c)';
+                            loading.style.display = 'none';
                             
                             setTimeout(() => {
                                 this.innerHTML = originalText;
                                 this.style.background = 'linear-gradient(135deg, var(--accent), var(--accent-glow))';
                             }, 2000);
-                        }, 1000);
-                    }, 100);
+                        });
                 });
             });
         });
