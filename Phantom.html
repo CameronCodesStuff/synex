@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phantom Embedder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c14 0%, #1a1a2e 100%);
+            color: #e6e6ff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(13, 13, 25, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(101, 101, 149, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #a892ff;
+            text-shadow: 0 0 10px rgba(168, 146, 255, 0.5);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #8a7dff;
+        }
+        
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(20, 20, 35, 0.7);
+            border: 1px solid #2a2a4a;
+            border-radius: 8px;
+            color: #e6e6ff;
+            font-size: 16px;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #7b68ee;
+            box-shadow: 0 0 0 2px rgba(123, 104, 238, 0.3);
+        }
+        
+        .preview-box {
+            background: rgba(20, 20, 35, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px solid #2a2a4a;
+        }
+        
+        .preview-box h3 {
+            color: #8a7dff;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        #titlePreview {
+            text-align: center;
+            font-weight: 600;
+            margin: 10px 0;
+            color: #c4b5fd;
+        }
+        
+        #faviconPreview {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 5px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #7b68ee 0%, #6a5acd 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, #6a5acd 0%, #7b68ee 100%);
+            box-shadow: 0 0 15px rgba(123, 104, 238, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-small {
+            display: inline-block;
+            width: auto;
+            padding: 8px 15px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .disclaimer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #777;
+        }
+        
+        .icon {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .icon i {
+            font-size: 42px;
+            color: #7b68ee;
+            text-shadow: 0 0 10px rgba(123, 104, 238, 0.5);
+        }
+        
+        .tab-preview {
+            background: rgba(30, 30, 50, 0.6);
+            border-radius: 8px;
+            padding: 10px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            border: 1px solid #3a3a5a;
+        }
+        
+        .tab-favicon {
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+        
+        .tab-title {
+            font-size: 14px;
+            color: #d0d0f0;
+        }
+        
+        .instructions {
+            background: rgba(20, 20, 35, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px solid #2a2a4a;
+            font-size: 14px;
+        }
+        
+        .instructions h3 {
+            color: #8a7dff;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .load-status {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+        
+        .success {
+            color: #4caf50;
+        }
+        
+        .error {
+            color: #f44336;
+        }
+        
+        .favicon-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .favicon-option {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background: rgba(30, 30, 50, 0.6);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .favicon-option:hover {
+            background: rgba(50, 50, 70, 0.6);
+        }
+        
+        .favicon-option.active {
+            background: rgba(70, 70, 100, 0.6);
+            box-shadow: 0 0 10px rgba(123, 104, 238, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">
+            <i class="fas fa-ghost"></i>
+        </div>
+        <h1>PHANTOM EMBEDDER</h1>
+        
+        <div class="input-group">
+            <label for="urlInput"><i class="fas fa-link"></i> Website URL</label>
+            <input type="text" id="urlInput" placeholder="https://example.com" autocomplete="off">
+        </div>
+        
+        <div class="input-group">
+            <label for="titleInput"><i class="fas fa-heading"></i> Custom Title</label>
+            <input type="text" id="titleInput" placeholder="Enter custom title" autocomplete="off">
+        </div>
+        
+        <div class="input-group">
+            <label><i class="fas fa-image"></i> Favicon Source</label>
+            <div class="favicon-options">
+                <div class="favicon-option active" id="option-url">URL</div>
+                <div class="favicon-option" id="option-upload">Upload</div>
+            </div>
+        </div>
+        
+        <div class="input-group" id="favicon-url-group">
+            <label for="faviconUrlInput"><i class="fas fa-link"></i> Favicon URL</label>
+            <input type="text" id="faviconUrlInput" placeholder="https://example.com/favicon.ico" autocomplete="off">
+            <button id="loadFaviconBtn" class="btn btn-small">Load Favicon</button>
+            <div id="faviconLoadStatus" class="load-status"></div>
+        </div>
+        
+        <div class="input-group" id="favicon-upload-group" style="display: none;">
+            <label for="faviconUploadInput"><i class="fas fa-upload"></i> Upload Favicon</label>
+            <input type="file" id="faviconUploadInput" accept="image/*">
+        </div>
+        
+        <div class="preview-box">
+            <h3><i class="fas fa-eye"></i> Preview</h3>
+            <div class="tab-preview">
+                <img id="tabFaviconPreview" class="tab-favicon" src="" alt="">
+                <div id="tabTitlePreview" class="tab-title">Page Title</div>
+            </div>
+            <div id="titlePreview">Your custom title will appear here</div>
+            <img id="faviconPreview" src="" alt="Favicon preview" style="display: none;">
+        </div>
+        
+        <button id="executeBtn" class="btn"><i class="fas fa-play"></i> Embed Website</button>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> How It Works</h3>
+            <ol>
+                <li>Enter any website URL (http, https, www, etc.)</li>
+                <li>Optionally customize the page title and favicon</li>
+                <li>Choose a favicon source (URL or upload)</li>
+                <li>Click "Load Favicon" to preview the favicon</li>
+                <li>Click "Embed Website" to open it embedded in a new tab</li>
+                <li>The website will appear to be hosted on about:blank</li>
+                <li>Since the website is in about:blank, it is invisible</li>
+                <li>About:blank doesn't show on your teachers computer</li>
+                <br>
+                <p>Some websites won't embed due to their rules</p>
+            </ol>
+        </div>
+        
+        <div class="disclaimer">
+            CameronCodesStuff | Use responsibly
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlInput = document.getElementById('urlInput');
+            const titleInput = document.getElementById('titleInput');
+            const faviconUrlInput = document.getElementById('faviconUrlInput');
+            const faviconUploadInput = document.getElementById('faviconUploadInput');
+            const loadFaviconBtn = document.getElementById('loadFaviconBtn');
+            const executeBtn = document.getElementById('executeBtn');
+            const titlePreview = document.getElementById('titlePreview');
+            const faviconPreview = document.getElementById('faviconPreview');
+            const tabTitlePreview = document.getElementById('tabTitlePreview');
+            const tabFaviconPreview = document.getElementById('tabFaviconPreview');
+            const faviconLoadStatus = document.getElementById('faviconLoadStatus');
+            const optionUrl = document.getElementById('option-url');
+            const optionUpload = document.getElementById('option-upload');
+            const faviconUrlGroup = document.getElementById('favicon-url-group');
+            const faviconUploadGroup = document.getElementById('favicon-upload-group');
+            
+            let currentFaviconDataUrl = '';
+            
+            // Toggle between URL and upload options
+            optionUrl.addEventListener('click', function() {
+                optionUrl.classList.add('active');
+                optionUpload.classList.remove('active');
+                faviconUrlGroup.style.display = 'block';
+                faviconUploadGroup.style.display = 'none';
+            });
+            
+            optionUpload.addEventListener('click', function() {
+                optionUpload.classList.add('active');
+                optionUrl.classList.remove('active');
+                faviconUploadGroup.style.display = 'block';
+                faviconUrlGroup.style.display = 'none';
+            });
+            
+            // Update preview as user types
+            titleInput.addEventListener('input', updatePreview);
+            faviconUploadInput.addEventListener('change', handleFaviconUpload);
+            
+            function updatePreview() {
+                const title = titleInput.value.trim();
+                titlePreview.textContent = title || 'Your custom title will appear here';
+                tabTitlePreview.textContent = title || 'Page Title';
+            }
+            
+            function handleFaviconUpload(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        currentFaviconDataUrl = e.target.result;
+                        faviconPreview.src = currentFaviconDataUrl;
+                        tabFaviconPreview.src = currentFaviconDataUrl;
+                        faviconPreview.style.display = 'block';
+                        
+                        faviconLoadStatus.textContent = 'Favicon loaded successfully!';
+                        faviconLoadStatus.className = 'load-status success';
+                        
+                        // Clear status after 2 seconds
+                        setTimeout(() => {
+                            faviconLoadStatus.textContent = '';
+                        }, 2000);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+            
+            // Load favicon from URL
+            loadFaviconBtn.addEventListener('click', function() {
+                const faviconUrl = faviconUrlInput.value.trim();
+                
+                if (!faviconUrl) {
+                    faviconLoadStatus.textContent = 'Please enter a favicon URL';
+                    faviconLoadStatus.className = 'load-status error';
+                    return;
+                }
+                
+                // Try to load the favicon
+                faviconLoadStatus.textContent = 'Loading...';
+                faviconLoadStatus.className = 'load-status';
+                
+                // Create a test image to check if the URL is valid
+                const testImage = new Image();
+                testImage.onload = function() {
+                    // Convert the image to a data URL to ensure it works in the about:blank tab
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = testImage.width;
+                    canvas.height = testImage.height;
+                    ctx.drawImage(testImage, 0, 0);
+                    
+                    try {
+                        currentFaviconDataUrl = canvas.toDataURL('image/x-icon');
+                        faviconPreview.src = currentFaviconDataUrl;
+                        tabFaviconPreview.src = currentFaviconDataUrl;
+                        faviconPreview.style.display = 'block';
+                        
+                        faviconLoadStatus.textContent = 'Favicon loaded successfully!';
+                        faviconLoadStatus.className = 'load-status success';
+                        
+                        // Clear status after 2 seconds
+                        setTimeout(() => {
+                            faviconLoadStatus.textContent = '';
+                        }, 2000);
+                    } catch (e) {
+                        faviconLoadStatus.textContent = 'Error: Could not process favicon';
+                        faviconLoadStatus.className = 'load-status error';
+                    }
+                };
+                
+                testImage.onerror = function() {
+                    // Failed to load the image
+                    faviconLoadStatus.textContent = 'Error: Could not load favicon from URL';
+                    faviconLoadStatus.className = 'load-status error';
+                };
+                
+                testImage.src = faviconUrl;
+            });
+            
+            executeBtn.addEventListener('click', function() {
+                const url = urlInput.value.trim();
+                const title = titleInput.value.trim();
+                
+                if (!url) {
+                    alert('Please enter a URL');
+                    return;
+                }
+                
+                // Format the URL properly
+                let formattedUrl = url;
+                if (!url.startsWith('http://') && !url.startsWith('https://') && !url.startsWith('www.')) {
+                    formattedUrl = 'https://' + url;
+                } else if (url.startsWith('www.')) {
+                    formattedUrl = 'https://' + url;
+                }
+                
+                try {
+                    // Create a new tab with about:blank
+                    const newTab = window.open('about:blank', '_blank');
+                    
+                    if (!newTab) {
+                        alert('Popup blocked! Please allow popups for this site.');
+                        return;
+                    }
+                    
+                    // Create a basic HTML structure with an iframe embedding the target site
+                    const customHTML = `
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>${title || 'Embedded Page'}</title>
+                            ${currentFaviconDataUrl ? `<link rel="icon" href="${currentFaviconDataUrl}">` : ''}
+                            <style>
+                                body {
+                                    margin: 0;
+                                    padding: 0;
+                                    background: #0a0a18;
+                                    overflow: hidden;
+                                    font-family: Arial, sans-serif;
+                                }
+                                iframe {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    border: none;
+                                }
+                                .loading {
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                    color: #7b68ee;
+                                    font-size: 18px;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="loading">Loading content...</div>
+                            <iframe src="${formattedUrl}" sandbox="allow-same-origin allow-scripts allow-forms allow-popups" 
+                                onload="document.querySelector('.loading').style.display = 'none';"></iframe>
+                        </body>
+                        </html>
+                    `;
+                    
+                    // Write the HTML to the new tab
+                    newTab.document.open();
+                    newTab.document.write(customHTML);
+                    newTab.document.close();
+                    
+                    // Add visual feedback
+                    executeBtn.textContent = 'Embedding...';
+                    executeBtn.disabled = true;
+                    
+                    setTimeout(() => {
+                        executeBtn.innerHTML = '<i class="fas fa-check"></i> Success!';
+                        executeBtn.style.background = 'linear-gradient(135deg, #4caf50 0%, #2e7d32 100%)';
+                        
+                        setTimeout(() => {
+                            executeBtn.innerHTML = '<i class="fas fa-play"></i> Embed Website';
+                            executeBtn.style.background = '';
+                            executeBtn.disabled = false;
+                        }, 2000);
+                    }, 1000);
+                    
+                } catch (e) {
+                    alert('Error: Could not open the tab. Please check your popup settings.');
+                    console.error(e);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

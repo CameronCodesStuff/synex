@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mysterious YouTube Player</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: #e0e0e0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(40, 5, 60, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 75% 75%, rgba(20, 5, 40, 0.4) 0%, transparent 40%);
+        }
+        
+        .header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 5, 20, 0.8);
+            border-bottom: 1px solid #2a1a3a;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #a56de2;
+            text-shadow: 0 0 10px rgba(165, 109, 226, 0.6);
+        }
+        
+        .url-input-container {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+            max-width: 600px;
+            margin: 0 20px;
+        }
+        
+        .url-input {
+            flex: 1;
+            padding: 12px 18px;
+            background: rgba(20, 10, 30, 0.7);
+            border: 1px solid #3a1a4a;
+            color: #e0e0e0;
+            border-radius: 30px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .url-input:focus {
+            border-color: #7a3fa3;
+            box-shadow: 0 0 15px rgba(120, 50, 180, 0.5);
+        }
+        
+        .load-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4a1b6e 0%, #30105c 100%);
+            color: #e0e0e0;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .load-btn:hover {
+            background: linear-gradient(135deg, #5a2188 0%, #3f1573 100%);
+            box-shadow: 0 0 20px rgba(120, 50, 180, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        .player-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 2;
+        }
+        
+        .instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1;
+            max-width: 80%;
+        }
+        
+        .instructions h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 15px rgba(150, 50, 200, 0.8);
+            letter-spacing: 2px;
+            font-weight: 300;
+            animation: pulse 4s infinite;
+        }
+        
+        .instructions p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #a0a0a0;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .example {
+            font-size: 0.9rem;
+            color: #7a5a8a;
+            margin-top: 10px;
+        }
+        
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            gap: 15px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background: rgba(15, 10, 25, 0.7);
+            padding: 12px 20px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .player-container:hover .controls {
+            opacity: 1;
+        }
+        
+        .control-btn {
+            background: rgba(40, 20, 60, 0.7);
+            color: #c0a0e0;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .control-btn:hover {
+            background: rgba(60, 30, 90, 0.9);
+            color: #e0c0ff;
+            transform: scale(1.1);
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(100, 50, 150, 0.2);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100vw) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                text-shadow: 0 0 15px rgba(150, 50, 200, 0.8);
+            }
+            50% {
+                text-shadow: 0 0 25px rgba(180, 70, 230, 1), 0 0 35px rgba(150, 50, 200, 0.6);
+            }
+            100% {
+                text-shadow: 0 0 15px rgba(150, 50, 200, 0.8);
+            }
+        }
+        
+        .watermark {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 0.9rem;
+            color: rgba(160, 140, 180, 0.7);
+            z-index: 3;
+        }
+        
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid #3a1a4a;
+            color: #a56de2;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            border-color: #7a3fa3;
+            background: rgba(60, 30, 90, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">MYSTERY PLAYER</div>
+        <div class="url-input-container">
+            <input type="text" class="url-input" id="urlInput" placeholder="Paste YouTube URL or Video ID">
+            <button class="load-btn" id="loadBtn">Load Video</button>
+        </div>
+        <button class="theme-toggle" id="themeToggle">Toggle Lights</button>
+    </div>
+    
+    <div class="player-container">
+        <div class="particles" id="particles"></div>
+        
+        <div class="instructions" id="instructions">
+            <h2>Mysterious Player</h2>
+            <p>Paste a YouTube URL or Video ID in the input above to begin watching in a dark, cinematic environment</p>
+            <p class="example">Example: https://www.youtube.com/watch?v=dQw4w9WgXcQ or just dQw4w9WgXcQ</p>
+        </div>
+        
+        <iframe id="player" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        
+        <div class="controls">
+            <button class="control-btn" id="rewindBtn">⏪</button>
+            <button class="control-btn" id="playPauseBtn">⏯</button>
+            <button class="control-btn" id="forwardBtn">⏩</button>
+        </div>
+        
+        <div class="watermark">Dark Player v1.0</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlInput = document.getElementById('urlInput');
+            const loadBtn = document.getElementById('loadBtn');
+            const player = document.getElementById('player');
+            const instructions = document.getElementById('instructions');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const rewindBtn = document.getElementById('rewindBtn');
+            const forwardBtn = document.getElementById('forwardBtn');
+            const particlesContainer = document.getElementById('particles');
+            const themeToggle = document.getElementById('themeToggle');
+            
+            let isDarkMode = true;
+            let playerState = -1; // -1: unstarted, 1: playing, 2: paused
+            
+            // Create floating particles for background effect
+            createParticles();
+            
+            // Load button functionality
+            loadBtn.addEventListener('click', loadVideo);
+            
+            // Also load video when Enter is pressed in the input field
+            urlInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    loadVideo();
+                }
+            });
+            
+            // Control buttons functionality
+            playPauseBtn.addEventListener('click', function() {
+                togglePlayPause();
+            });
+            
+            rewindBtn.addEventListener('click', function() {
+                rewindVideo();
+            });
+            
+            forwardBtn.addEventListener('click', function() {
+                forwardVideo();
+            });
+            
+            // Theme toggle functionality
+            themeToggle.addEventListener('click', function() {
+                isDarkMode = !isDarkMode;
+                document.body.style.backgroundColor = isDarkMode ? '#0a0a0a' : '#e0e0e0';
+                document.body.style.color = isDarkMode ? '#e0e0e0' : '#0a0a0a';
+                themeToggle.textContent = isDarkMode ? 'Toggle Lights' : 'Toggle Dark';
+            });
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    togglePlayPause();
+                } else if (e.code === 'ArrowLeft') {
+                    rewindVideo();
+                } else if (e.code === 'ArrowRight') {
+                    forwardVideo();
+                } else if (e.code === 'Escape') {
+                    instructions.style.display = 'block';
+                }
+            });
+            
+            function loadVideo() {
+                let videoId = extractVideoId(urlInput.value.trim());
+                
+                if (videoId) {
+                    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&enablejsapi=1`;
+                    instructions.style.display = 'none';
+                } else {
+                    alert('Please enter a valid YouTube URL or Video ID');
+                    urlInput.focus();
+                }
+            }
+            
+            function extractVideoId(url) {
+                // If it's already just an ID
+                if (!url.includes('://') && !url.includes('/') && url.length === 11) {
+                    return url;
+                }
+                
+                // Extract from various YouTube URL formats
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                const match = url.match(regExp);
+                
+                if (match && match[2].length === 11) {
+                    return match[2];
+                }
+                
+                return null;
+            }
+            
+            function createParticles() {
+                const particleCount = 20;
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    // Random size between 5 and 30px
+                    const size = Math.random() * 25 + 5;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    // Random position
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    
+                    // Random animation delay and duration
+                    const delay = Math.random() * 15;
+                    const duration = Math.random() * 10 + 15;
+                    particle.style.animationDelay = `${delay}s`;
+                    particle.style.animationDuration = `${duration}s`;
+                    
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            
+            function togglePlayPause() {
+                // In a real implementation, you would use YouTube IFrame API
+                console.log('Play/Pause functionality would be implemented with YouTube API');
+            }
+            
+            function rewindVideo() {
+                console.log('Rewind functionality would be implemented with YouTube API');
+            }
+            
+            function forwardVideo() {
+                console.log('Forward functionality would be implemented with YouTube API');
+            }
+        });
+    </script>
+</body>
+</html>
