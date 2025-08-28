@@ -236,7 +236,7 @@
         
         <section class="intro">
             <p>Welcome to my collection of enigmatic scripts. Each tool has been carefully crafted to solve specific problems while maintaining an air of mystery. Browse the offerings below and harness their hidden power.</p>
-            <p>I apoligise the downloads don't download yet, so just copy the code and paste it into notepad. Next, save it as "example.bat/py" and you'll be good to go!</p>
+            <p>All scripts will now download directly to your device when you click the download button.</p>
         </section>
         
         <section class="script-grid">
@@ -313,49 +313,38 @@
                     this.innerHTML = '<i class="fas fa-download"></i> Downloading...';
                     loading.style.display = 'inline-block';
                     
-                    // Create the GitHub API URL to get the download URL
-                    const apiUrl = `https://api.github.com/repos/CameronCodesStuff/synex/contents/${filename}`;
+                    // Create the GitHub raw content URL
+                    const rawUrl = `https://raw.githubusercontent.com/CameronCodesStuff/synex/main/${filename}`;
                     
-                    // Fetch the download URL from GitHub API
-                    fetch(apiUrl)
-                        .then(response => response.json())
-                        .then(data => {
-                            // Create a temporary anchor element to trigger the download
-                            const a = document.createElement('a');
-                            a.href = data.download_url;
-                            a.download = filename;
-                            document.body.appendChild(a);
-                            a.click();
-                            
-                            // Clean up
-                            setTimeout(() => {
-                                document.body.removeChild(a);
-                                
-                                // Reset button text
-                                this.innerHTML = originalText;
-                                loading.style.display = 'none';
-                                
-                                // Show downloaded confirmation
-                                this.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
-                                this.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
-                                
-                                setTimeout(() => {
-                                    this.innerHTML = originalText;
-                                    this.style.background = 'linear-gradient(135deg, var(--accent), var(--accent-glow))';
-                                }, 2000);
-                            }, 1000);
-                        })
-                        .catch(error => {
-                            console.error('Error downloading file:', error);
-                            this.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
-                            this.style.background = 'linear-gradient(135deg, #f44336, #b71c1c)';
+                    // Create a temporary anchor element to trigger the download
+                    const a = document.createElement('a');
+                    a.href = rawUrl;
+                    a.download = filename;
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    
+                    // Use a timeout to ensure the element is properly added to the DOM
+                    setTimeout(() => {
+                        a.click();
+                        
+                        // Clean up
+                        document.body.removeChild(a);
+                        
+                        // Reset button text
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
                             loading.style.display = 'none';
+                            
+                            // Show downloaded confirmation
+                            this.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
+                            this.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
                             
                             setTimeout(() => {
                                 this.innerHTML = originalText;
                                 this.style.background = 'linear-gradient(135deg, var(--accent), var(--accent-glow))';
                             }, 2000);
-                        });
+                        }, 1000);
+                    }, 100);
                 });
             });
         });
