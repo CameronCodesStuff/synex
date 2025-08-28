@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShadowScripts | Mysterious Developer Tools</title>
-      <link rel="icon" href="https://avatars.githubusercontent.com/u/151978475?v=4" type="image/png" />
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/151978475?v=4" type="image/png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -244,7 +244,7 @@
                 <div class="script-icon"><i class="fas fa-broom"></i></div>
                 <h3 class="script-title">System Cleaner</h3>
                 <p class="script-description">A powerful batch script that thoroughly cleans temporary files, cache, and unnecessary system clutter. Improves performance and frees up disk space with a single execution.</p>
-                <a href="scanner.bat" class="download-btn" data-filename="scanner.bat">
+                <a href="https://raw.githubusercontent.com/CameronCodesStuff/synex/main/scanner.bat" class="download-btn" data-filename="scanner.bat">
                     <i class="fas fa-download"></i> Download Script
                 </a>
                 <div class="loading"></div>
@@ -255,7 +255,7 @@
                 <div class="script-icon"><i class="fas fa-lock"></i></div>
                 <h3 class="script-title">Folder Locker</h3>
                 <p class="script-description">Protect your sensitive directories with this encryption batch script. Quickly lock and unlock folders with a password, keeping your confidential files away from prying eyes.</p>
-                <a href="https://github.com/yourusername/yourrepo/raw/main/folder_locker.bat" class="download-btn" data-filename="folder_locker.bat">
+                <a href="https://raw.githubusercontent.com/CameronCodesStuff/synex/main/folder_locker.bat" class="download-btn" data-filename="folder_locker.bat">
                     <i class="fas fa-download"></i> Download Script
                 </a>
                 <div class="loading"></div>
@@ -266,7 +266,7 @@
                 <div class="script-icon"><i class="fas fa-network-wired"></i></div>
                 <h3 class="script-title">Network Optimizer</h3>
                 <p class="script-description">Optimize your network settings for improved speed and stability. This script tweaks TCP/IP parameters and resets network components for a smoother online experience.</p>
-                <a href="https://github.com/yourusername/yourrepo/raw/main/network_optimizer.bat" class="download-btn" data-filename="network_optimizer.bat">
+                <a href="https://raw.githubusercontent.com/CameronCodesStuff/synex/main/network_optimizer.bat" class="download-btn" data-filename="network_optimizer.bat">
                     <i class="fas fa-download"></i> Download Script
                 </a>
                 <div class="loading"></div>
@@ -277,7 +277,7 @@
                 <div class="script-icon"><i class="fab fa-python"></i></div>
                 <h3 class="script-title">File Organizer</h3>
                 <p class="script-description">A Python script that automatically organizes your cluttered directories. It categorizes files by type, creates appropriate folders, and moves files to their proper locations.</p>
-                <a href="https://github.com/yourusername/yourrepo/raw/main/file_organizer.py" class="download-btn" data-filename="file_organizer.py">
+                <a href="https://raw.githubusercontent.com/CameronCodesStuff/synex/main/file_organizer.py" class="download-btn" data-filename="file_organizer.py">
                     <i class="fas fa-download"></i> Download Script
                 </a>
                 <div class="loading"></div>
@@ -305,7 +305,7 @@
                     e.preventDefault();
                     
                     const filename = this.getAttribute('data-filename');
-                    const githubRawUrl = `https://github.com/CameronCodesStuff/synex/${filename}`;
+                    const githubRawUrl = this.href;
                     
                     // Show loading animation
                     const loading = this.nextElementSibling;
