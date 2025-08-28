@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowScripts | Mysterious Developer Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #0a0a14;
+            --darker-bg: #050510;
+            --accent: #6a0dad;
+            --accent-glow: #8a2be2;
+            --text: #e0e0ff;
+            --text-dim: #a0a0cc;
+            --card-bg: #12121f;
+            --card-border: #2a2a4a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text);
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(106, 13, 173, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(138, 43, 226, 0.1) 0%, transparent 20%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .tagline {
+            color: var(--text-dim);
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .github-info {
+            background: var(--darker-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
+            border: 1px solid var(--card-border);
+        }
+        
+        .github-info a {
+            color: var(--accent-glow);
+            text-decoration: none;
+        }
+        
+        .intro {
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .script-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .script-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .script-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-glow));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .script-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .script-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .script-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        
+        .script-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-glow);
+        }
+        
+        .script-description {
+            color: var(--text-dim);
+            margin-bottom: 20px;
+            min-height: 120px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-glow));
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .download-btn:hover {
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .download-btn:hover::before {
+            left: 100%;
+        }
+        
+        .loading {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .script-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ShadowScripts</h1>
+            <p class="tagline">Mysterious tools for the discerning developer</p>
+        </header>
+        
+        <div class="github-info">
+            <p><i class="fab fa-github"></i> Download scripts directly from my GitHub repository</p>
+            <p>Repository: <a href="https://github.com/yourusername/yourrepo" id="repo-link">https://github.com/yourusername/yourrepo</a></p>
+        </div>
+        
+        <section class="intro">
+            <p>Welcome to my collection of enigmatic scripts. Each tool has been carefully crafted to solve specific problems while maintaining an air of mystery. Browse the offerings below and harness their hidden power.</p>
+        </section>
+        
+        <section class="script-grid">
+            <!-- Batch Script 1 -->
+            <div class="script-card">
+                <div class="script-icon"><i class="fas fa-broom"></i></div>
+                <h3 class="script-title">System Cleaner</h3>
+                <p class="script-description">A powerful batch script that thoroughly cleans temporary files, cache, and unnecessary system clutter. Improves performance and frees up disk space with a single execution.</p>
+                <a href="https://github.com/yourusername/yourrepo/raw/main/system_cleaner.bat" class="download-btn" data-filename="system_cleaner.bat">
+                    <i class="fas fa-download"></i> Download Script
+                </a>
+                <div class="loading"></div>
+            </div>
+            
+            <!-- Batch Script 2 -->
+            <div class="script-card">
+                <div class="script-icon"><i class="fas fa-lock"></i></div>
+                <h3 class="script-title">Folder Locker</h3>
+                <p class="script-description">Protect your sensitive directories with this encryption batch script. Quickly lock and unlock folders with a password, keeping your confidential files away from prying eyes.</p>
+                <a href="https://github.com/yourusername/yourrepo/raw/main/folder_locker.bat" class="download-btn" data-filename="folder_locker.bat">
+                    <i class="fas fa-download"></i> Download Script
+                </a>
+                <div class="loading"></div>
+            </div>
+            
+            <!-- Batch Script 3 -->
+            <div class="script-card">
+                <div class="script-icon"><i class="fas fa-network-wired"></i></div>
+                <h3 class="script-title">Network Optimizer</h3>
+                <p class="script-description">Optimize your network settings for improved speed and stability. This script tweaks TCP/IP parameters and resets network components for a smoother online experience.</p>
+                <a href="https://github.com/yourusername/yourrepo/raw/main/network_optimizer.bat" class="download-btn" data-filename="network_optimizer.bat">
+                    <i class="fas fa-download"></i> Download Script
+                </a>
+                <div class="loading"></div>
+            </div>
+            
+            <!-- Python Script -->
+            <div class="script-card">
+                <div class="script-icon"><i class="fab fa-python"></i></div>
+                <h3 class="script-title">File Organizer</h3>
+                <p class="script-description">A Python script that automatically organizes your cluttered directories. It categorizes files by type, creates appropriate folders, and moves files to their proper locations.</p>
+                <a href="https://github.com/yourusername/yourrepo/raw/main/file_organizer.py" class="download-btn" data-filename="file_organizer.py">
+                    <i class="fas fa-download"></i> Download Script
+                </a>
+                <div class="loading"></div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>ShadowScripts &copy; 2023 | All scripts are provided as-is without warranty</p>
+            <p>Find more mysterious tools on my GitHub repository</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update all GitHub links with the actual repository URL
+            const repoUrl = 'https://github.com/yourusername/yourrepo';
+            document.getElementById('repo-link').textContent = repoUrl;
+            document.getElementById('repo-link').href = repoUrl;
+            
+            // Add download functionality
+            const downloadButtons = document.querySelectorAll('.download-btn');
+            
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const filename = this.getAttribute('data-filename');
+                    const githubRawUrl = `https://github.com/yourusername/yourrepo/raw/main/${filename}`;
+                    
+                    // Show loading animation
+                    const loading = this.nextElementSibling;
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-download"></i> Downloading...';
+                    loading.style.display = 'inline-block';
+                    
+                    // Create a temporary anchor element to trigger the download
+                    const a = document.createElement('a');
+                    a.href = githubRawUrl;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    // Clean up
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        
+                        // Reset button text
+                        this.innerHTML = originalText;
+                        loading.style.display = 'none';
+                        
+                        // Show downloaded confirmation
+                        this.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
+                        this.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+                        
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                            this.style.background = 'linear-gradient(135deg, var(--accent), var(--accent-glow))';
+                        }, 2000);
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
