@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synex Launcher</title>
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzdABIK_5YZktW_HhprdYehpE2BwEBoCOjtg&s" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c0c14 0%, #1a1a2e 100%);
+            color: #e6e6e6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(102, 51, 153, 0.5);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(-35px) translateX(-15px);
+            }
+            75% {
+                transform: translateY(-15px) translateX(5px);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            opacity: 0;
+            animation: fadeIn 2s forwards 0.5s;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(138, 43, 226, 0.7);
+            letter-spacing: 4px;
+            font-weight: 300;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #8a2be2, transparent);
+            animation: pulseLine 3s infinite;
+        }
+
+        @keyframes pulseLine {
+            0%, 100% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: #a0a0a0;
+            letter-spacing: 2px;
+        }
+
+        .buttons-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .btn {
+            position: relative;
+            padding: 1.5rem 1rem;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(26, 26, 46, 0.7);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            color: #e6e6e6;
+            cursor: pointer;
+            transition: all 0.4s;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: buttonAppear 1s forwards;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .btn:nth-child(1) {
+            animation-delay: 1s;
+        }
+        .btn:nth-child(2) {
+            animation-delay: 1.3s;
+        }
+        .btn:nth-child(3) {
+            animation-delay: 1.6s;
+        }
+        .btn:nth-child(4) {
+            animation-delay: 1.9s;
+        }
+        .btn:nth-child(5) {
+            animation-delay: 2.2s;
+        }
+        .btn:nth-child(6) {
+            animation-delay: 2.5s;
+        }
+
+        @keyframes buttonAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            background: rgba(138, 43, 226, 0.2);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .btn i {
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .btn span {
+            font-size: 0.9rem;
+            margin-top: 8px;
+            opacity: 0.8;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .orb {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #4b0082, transparent 50%);
+            filter: blur(40px);
+            opacity: 0.3;
+            z-index: 0;
+            animation: orbMove 20s infinite alternate ease-in-out;
+        }
+
+        .orb:nth-child(1) {
+            top: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+
+        .orb:nth-child(2) {
+            bottom: -100px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        @keyframes orbMove {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(50px, 50px) scale(1.2);
+            }
+        }
+
+        .pulse {
+            display: block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #8a2be2;
+            margin: 2rem auto;
+            box-shadow: 0 0 0 rgba(138, 43, 226, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(138, 43, 226, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(138, 43, 226, 0);
+            }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 5rem;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .buttons-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+
+    <div class="container">
+        <header>
+            <h1>Synex Launcher</h1>
+            <p class="tagline">Enter if you dare, but beware what lies beyond</p>
+            <div class="pulse"></div>
+        </header>
+
+        <div class="buttons-container">
+            <a href="exploits.html" class="btn">
+                <i class="fas fa-bug"></i>
+                Exploit Repository
+                <span>Extensive collection of security exploits</span>
+            </a>
+            
+            <a href="chromebooks.html" class="btn">
+                <i class="fas fa-laptop"></i>
+                Device Compendium
+                <span>Chromebook models & specifications</span>
+            </a>
+            
+            <a href="dev-mode.html" class="btn">
+                <i class="fas fa-user-secret"></i>
+                Developer Mode Unlock
+                <span>Chromebook developer mode bypass</span>
+            </a>
+            
+            <a href="history-flood.html" class="btn">
+                <i class="fas fa-history"></i>
+                Chrono Flooder
+                <span>Advanced history flooding tool</span>
+            </a>
+            
+            <a href="hapara-bypass.html" class="btn">
+                <i class="fas fa-unlock"></i>
+                Hapara Evasion
+                <span>Hapara Student Dashboard bypass</span>
+            </a>
+            
+            <a href="unenroll.html" class="btn">
+                <i class="fas fa-eraser"></i>
+                Enterprise Unenroll
+                <span>Chromebook management removal</span>
+            </a>
+        </div>
+
+        <footer>
+            <p>CameronCodesStuff &middot; Menu</p>
+        </footer>
+    </div>
+
+    <script>
+        // Create floating particles
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties for each particle
+                const size = Math.random() * 10 + 2;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const hue = Math.random() * 60 + 240; // Purple/blue colors
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.backgroundColor = `hsla(${hue}, 70%, 60%, 0.3)`;
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Add interactive background effect on mousemove
+            document.addEventListener('mousemove', function(e) {
+                const orbs = document.querySelectorAll('.orb');
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                orbs.forEach(orb => {
+                    orb.style.transform = `translate(${x * 30 - 15}px, ${y * 30 - 15}px)`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
