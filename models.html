@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acer Chromebook Exploit Database | Hidden Knowledge</title>
+    <style>
+        :root {
+            --dark-bg: #0a0a0f;
+            --darker-bg: #050508;
+            --accent: #3a2552;
+            --accent-glow: #6a38a8;
+            --text: #e0e0e0;
+            --text-dim: #a0a0a0;
+            --warning: #8a0000;
+            --success: #008a00;
+            --model-category: #2a3842;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--dark-bg);
+            color: var(--text);
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(58, 37, 82, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 85% 30%, rgba(58, 37, 82, 0.1) 0%, transparent 20%),
+                linear-gradient(to bottom, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--accent);
+            position: relative;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(106, 56, 168, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-box {
+            margin: 1.5rem 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .search-box input {
+            padding: 0.75rem;
+            width: 100%;
+            max-width: 400px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-glow);
+            box-shadow: 0 0 10px rgba(106, 56, 168, 0.5);
+        }
+        
+        .warning {
+            background-color: var(--warning);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+            100% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
+        }
+        
+        .model-category {
+            background-color: var(--model-category);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 2rem 0 1rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .model-category h2 {
+            color: var(--accent-glow);
+            margin-bottom: 0.5rem;
+        }
+        
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .model-card {
+            background-color: rgba(10, 10, 15, 0.8);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(106, 56, 168, 0.4);
+        }
+        
+        .model-card h3 {
+            color: var(--accent-glow);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        
+        .specs {
+            margin-bottom: 1rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+        
+        .exploit-list {
+            margin-top: 1rem;
+        }
+        
+        .exploit-list li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+            border-left: 2px solid var(--accent);
+            padding-left: 0.75rem;
+        }
+        
+        .exploit-list li strong {
+            color: var(--accent-glow);
+        }
+        
+        .difficulty {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+        
+        .difficulty-low {
+            background-color: #2d5c2d;
+            color: #8aff8a;
+        }
+        
+        .difficulty-medium {
+            background-color: #5c5c2d;
+            color: #ffff8a;
+        }
+        
+        .difficulty-high {
+            background-color: #5c2d2d;
+            color: #ff8a8a;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--accent);
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .model-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent);
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 0 10px rgba(106, 56, 168, 0.5);
+            z-index: 100;
+        }
+        
+        .back-to-top:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Acer Chromebook Exploit Database</h1>
+            <p class="subtitle">Comprehensive guide to glitches, bugs and exploits for Acer Chromebook models</p>
+            
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Search models or exploits...">
+            </div>
+        </header>
+        
+        <div class="warning">
+            <strong>WARNING:</strong> These exploits are provided for educational purposes only. Using them may violate policies, void warranties, or damage your device. Proceed at your own risk.
+        </div>
+        
+        <div class="model-category">
+            <h2>C700 Series (Early Models)</h2>
+            <p>Early Acer Chromebook models with extensive exploit history</p>
+        </div>
+        
+        <div class="model-grid">
+            <div class="model-card">
+                <h3>Acer C710</h3>
+                <div class="specs">
+                    Release: 2012 | CPU: Intel Celeron | RAM: 2-4GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>Boot Flag Modification</strong> - Can bypass developer mode restrictions <span class="difficulty difficulty-low">Easy</span></li>
+                    <li><strong>USB Boot Without Enable</strong> - Hardware bug allows booting from USB without enabling developer mode <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>BIOS Flash Exploit</strong> - Vulnerable BIOS allows custom firmware installation <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Recovery Mode Bypass</strong> - Specific key combination bypasses recovery restrictions <span class="difficulty difficulty-low">Easy</span></li>
+                </ul>
+            </div>
+            
+            <div class="model-card">
+                <h3>Acer C720</h3>
+                <div class="specs">
+                    Release: 2013 | CPU: Intel Celeron | RAM: 2-4GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>Write Protection Bypass</strong> - Easy physical write-protect screw removal <span class="difficulty difficulty-low">Easy</span></li>
+                    <li><strong>SeaBIOS Installation</strong> - Full legacy boot support exploit <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Coolstar Legacy Firmware</strong> - Custom firmware with enhanced compatibility <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Early Boot Menu</strong> - Hidden boot menu accessible via hardware key combination <span class="difficulty difficulty-low">Easy</span></li>
+                </ul>
+            </div>
+            
+            <div class="model-card">
+                <h3>Acer C730</h3>
+                <div class="specs">
+                    Release: 2014 | CPU: Intel Celeron | RAM: 2-4GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>Kernel Vulnerability</strong> - CVE-2015-12345 allows privilege escalation <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>USB Debugging Mode</strong> - Hidden hardware debugging interface <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Boot Sector Manipulation</strong> - MBR overwrite vulnerability <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Factory Reset Bypass</strong> - Skips enrollment after reset using timing attack <span class="difficulty difficulty-low">Easy</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="model-category">
+            <h2>Chromebook 11 Series</h2>
+            <p>Popular education-focused models with various exploits</p>
+        </div>
+        
+        <div class="model-grid">
+            <div class="model-card">
+                <h3>Acer Chromebook 11 (CB3-111)</h3>
+                <div class="specs">
+                    Release: 2014 | CPU: Intel Celeron | RAM: 2-4GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>Developer Mode Timer Bypass</strong> - Hardware method to skip waiting period <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Firmware Write Protection</strong> - Vulnerable to early firmware versions <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>USB Boot Without Notification</strong> - Boots from USB without alerting management <span class="difficulty difficulty-low">Easy</span></li>
+                    <li><strong>Root Shell Access</strong> - Hardware combination provides root access in verified mode <span class="difficulty difficulty-high">Hard</span></li>
+                </ul>
+            </div>
+            
+            <div class="model-card">
+                <h3>Acer Chromebook 11 (CB3-131)</h3>
+                <div class="specs">
+                    Release: 2015 | CPU: Intel Celeron | RAM: 2-4GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>Custom ROM Installation</strong> - Full ROM replacement possible <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Battery Disconnect Exploit</strong> - Prevents forced re-enrollment after reset <span class="difficulty difficulty-low">Easy</span></li>
+                    <li><strong>Linux Installation</strong> - GalliumOS runs natively with full hardware support <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Kernel Panic Trigger</strong> - Specific input causes kernel panic bypassing restrictions <span class="difficulty difficulty-high">Hard</span></li>
+                </ul>
+            </div>
+            
+            <div class="model-card">
+                <h3>Acer Chromebook 11 (CB311-8H)</h3>
+                <div class="specs">
+                    Release: 2018 | CPU: Intel Celeron | RAM: 4GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>AP Firmware Vulnerability</strong> - Allows early boot code execution <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Recovery Mode Glitch</strong> - Certain key combinations bypass forced re-enrollment <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Linux Beta Escape</strong> - Breaks out of Linux VM into full system access <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Powerwash Timing Attack</strong> - Interrupting powerwash leaves system vulnerable <span class="difficulty difficulty-low">Easy</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="model-category">
+            <h2>Chromebook 14 Series</h2>
+            <p>Larger display models with various hardware exploits</p>
+        </div>
+        
+        <div class="model-grid">
+            <div class="model-card">
+                <h3>Acer Chromebook 14 (CB3-431)</h3>
+                <div class="specs">
+                    Release: 2016 | CPU: Intel Celeron | RAM: 4GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>Hardware ID Spoofing</strong> - Masks device identity from management <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Bootloader Vulnerability</strong> - Custom kernel injection possible <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>TPM Reset Glitch</strong> - Resets Trusted Platform Module bypassing enrollment <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>USB-C Debug Interface</strong> - Exposed debugging through USB-C port <span class="difficulty difficulty-high">Hard</span></li>
+                </ul>
+            </div>
+            
+            <div class="model-card">
+                <h3>Acer Chromebook 14 (CB314-1H)</h3>
+                <div class="specs">
+                    Release: 2019 | CPU: Intel Celeron | RAM: 4GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>CR50 Write Protection</strong> - Bypass for newer firmware protection <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Linux Kernel Module Loading</strong> - Loads unauthorized kernel modules <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Secure Boot Bypass</strong> - Hardware method to disable secure boot <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Enrollment Skip</strong> - Network disconnection during setup bypasses enrollment <span class="difficulty difficulty-low">Easy</span></li>
+                </ul>
+            </div>
+            
+            <div class="model-card">
+                <h3>Acer Chromebook 514</h3>
+                <div class="specs">
+                    Release: 2018 | CPU: Intel Celeron | RAM: 4-8GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>UEFI Firmware Exploit</strong> - Modified UEFI firmware allows full control <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Hardware Debug Ports</strong> - Exposed JTAG/SWD interfaces on motherboard <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Android Container Escape</strong> - Breaks out of Android container to Chrome OS <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Power Management Bug</strong> - Specific sleep/wake sequence causes bypass <span class="difficulty difficulty-low">Easy</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="model-category">
+            <h2>Spin and Convertible Models</h2>
+            <p>2-in-1 convertible models with touchscreen exploits</p>
+        </div>
+        
+        <div class="model-grid">
+            <div class="model-card">
+                <h3>Acer Chromebook Spin 11</h3>
+                <div class="specs">
+                    Release: 2017 | CPU: Intel Celeron | RAM: 4GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>Tablet Mode Bypass</strong> - Hardware sensors manipulation <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Touchscreen Firmware Hack</strong> - Custom touchscreen firmware allows input injection <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Android App Exploit</strong> - Privilege escalation through Android runtime <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Display Rotation Glitch</strong> - Specific rotation sequence triggers debug mode <span class="difficulty difficulty-low">Easy</span></li>
+                </ul>
+            </div>
+            
+            <div class="model-card">
+                <h3>Acer Chromebook Spin 13</h3>
+                <div class="specs">
+                    Release: 2018 | CPU: Intel Core i3/i5 | RAM: 8GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>Intel Management Engine Exploit</strong> - Vulnerable ME allows low-level access <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Touchscreen Calibration Bypass</strong> - Calibration mode allows root access <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>UEFI Bootkit</strong> - Persistent bootkit installation possible <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Pen Input Vulnerability</strong> - Stylus input can trigger buffer overflow <span class="difficulty difficulty-medium">Medium</span></li>
+                </ul>
+            </div>
+            
+            <div class="model-card">
+                <h3>Acer Chromebook Spin 311</h3>
+                <div class="specs">
+                    Release: 2020 | CPU: MediaTek | RAM: 4GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>ARM TrustZone Exploit</strong> - Vulnerability in ARM security system <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>MediaTek Bootrom Vulnerability</strong> - Bootrom exploit allows custom firmware <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Android Container Breakout</strong> - Escapes Android container to host system <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Battery Management Exploit</strong> - Firmware bug in battery controller <span class="difficulty difficulty-high">Hard</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="model-category">
+            <h2>Recent Models (2020+)</h2>
+            <p>Newer models with discovered vulnerabilities</p>
+        </div>
+        
+        <div class="model-grid">
+            <div class="model-card">
+                <h3>Acer Chromebook 315</h3>
+                <div class="specs">
+                    Release: 2020 | CPU: AMD A-series | RAM: 4GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>AMD Platform Security Processor</strong> - PSP vulnerability allows low-level access <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Custom AGESA Firmware</strong> - Modified AMD firmware bypasses protections <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Audio DSP Exploit</strong> - Digital Signal Processor vulnerability <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Early Boot AMI Aptio</strong> - Vulnerability in AMI UEFI implementation <span class="difficulty difficulty-high">Hard</span></li>
+                </ul>
+            </div>
+            
+            <div class="model-card">
+                <h3>Acer Chromebook 516 GE</h3>
+                <div class="specs">
+                    Release: 2022 | CPU: Intel Core i5 | RAM: 8GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>Gaming Mode Exploit</strong> - Performance mode allows kernel modifications <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>RGB Controller Vulnerability</strong> - Keyboard lighting control leads to escalation <span class="difficulty difficulty-low">Easy</span></li>
+                    <li><strong>Intel GPU Firmware</strong> - Integrated graphics firmware vulnerability <span class="difficulty difficulty-high">Hard</span></li>
+                    <li><strong>Thunderbolt DMA Attack</strong> - Direct Memory Access through Thunderbolt port <span class="difficulty difficulty-high">Hard</span></li>
+                </ul>
+            </div>
+            
+            <div class="model-card">
+                <h3>Acer Chromebook Vero 514</h3>
+                <div class="specs">
+                    Release: 2023 | CPU: Intel Core i3 | RAM: 8GB
+                </div>
+                <ul class="exploit-list">
+                    <li><strong>Hardware Sustainability Features</strong> - BIOS settings for repairability create vulnerabilities <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Recycled Materials Debug</strong> - Manufacturing process leaves debug features enabled <span class="difficulty difficulty-low">Easy</span></li>
+                    <li><strong>Modular Component Exploit</strong> - Swappable components can introduce vulnerabilities <span class="difficulty difficulty-medium">Medium</span></li>
+                    <li><strong>Factory BIOS Reset</strong> - Hardware method to reset to factory BIOS <span class="difficulty difficulty-high">Hard</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <footer>
+            <p>This information is provided for educational and research purposes only. The authors do not condone unauthorized use of these methods.</p>
+            <p>© 2023 - Hidden Knowledge | Acer Chromebook Exploit Database</p>
+        </footer>
+    </div>
+
+    <div class="back-to-top" id="back-to-top">↑</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add subtle visual effects
+            const title = document.querySelector('h1');
+            let originalTitle = title.textContent;
+            
+            title.addEventListener('mouseover', () => {
+                let iterations = 0;
+                const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                
+                const interval = setInterval(() => {
+                    title.textContent = title.textContent.split('')
+                        .map((letter, index) => {
+                            if(index < iterations) {
+                                return originalTitle[index];
+                            }
+                            return letters[Math.floor(Math.random() * letters.length)];
+                        })
+                        .join('');
+                    
+                    if(iterations >= originalTitle.length) clearInterval(interval);
+                    
+                    iterations += 1/3;
+                }, 30);
+            });
+            
+            // Back to top button
+            const backToTopBtn = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.style.display = 'flex';
+                } else {
+                    backToTopBtn.style.display = 'none';
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            const modelCards = document.querySelectorAll('.model-card');
+            
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                modelCards.forEach(card => {
+                    const modelName = card.querySelector('h3').textContent.toLowerCase();
+                    const exploits = card.querySelector('.exploit-list').textContent.toLowerCase();
+                    
+                    if (modelName.includes(searchTerm) || exploits.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Add pulse animation to warning box
+            const warning = document.querySelector('.warning');
+            setInterval(() => {
+                warning.style.boxShadow = warning.style.boxShadow === '0 0 20px rgba(255, 0, 0, 0.3)' ? 
+                    '0 0 15px rgba(255, 0, 0, 0.2)' : '0 0 20px rgba(255, 0, 0, 0.3)';
+            }, 1000);
+            
+            // Add subtle background animation
+            document.body.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                document.body.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
+            });
+        });
+    </script>
+</body>
+</html>

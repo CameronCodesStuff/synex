@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chromebook Developer Mode Bypass | Hidden Exploit</title>
+    <style>
+        :root {
+            --dark-bg: #0a0a0f;
+            --darker-bg: #050508;
+            --accent: #523a00;
+            --accent-glow: #a86a00;
+            --text: #e0e0e0;
+            --text-dim: #a0a0a0;
+            --warning: #8a0000;
+            --success: #008a00;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--dark-bg);
+            color: var(--text);
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(82, 58, 0, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 85% 30%, rgba(82, 58, 0, 0.1) 0%, transparent 20%),
+                linear-gradient(to bottom, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--accent);
+            position: relative;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(168, 106, 0, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .warning {
+            background-color: var(--warning);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+            100% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
+        }
+        
+        .content {
+            background-color: rgba(10, 10, 15, 0.8);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2rem;
+            border: 1px solid var(--accent);
+        }
+        
+        h2 {
+            color: var(--accent-glow);
+            margin: 1.5rem 0 1rem;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .steps {
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .steps li {
+            margin-bottom: 1.5rem;
+            padding-left: 0.5rem;
+        }
+        
+        .steps li strong {
+            color: var(--accent-glow);
+        }
+        
+        .note {
+            background-color: rgba(82, 58, 0, 0.2);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .risks {
+            background-color: rgba(138, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--warning);
+        }
+        
+        .risks h3 {
+            color: #ff6060;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--accent);
+            margin-top: 3rem;
+        }
+        
+        .glow {
+            text-shadow: 0 0 5px var(--accent-glow);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 1.5rem;
+            }
+        }
+        
+        .model-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .model-table th, .model-table td {
+            border: 1px solid var(--accent);
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        .model-table th {
+            background-color: rgba(82, 58, 0, 0.3);
+            color: var(--accent-glow);
+        }
+        
+        .model-table tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Chromebook Developer Mode Bypass</h1>
+            <p class="subtitle">Unlocking the Full Potential of Your Device</p>
+        </header>
+        
+        <div class="content">
+            <div class="warning">
+                <strong>WARNING:</strong> This process will wipe all local data on your Chromebook. It may also violate school policies or void warranties. Proceed at your own risk.
+            </div>
+            
+            <h2>The Developer Mode Exploit</h2>
+            <p>While most Chromebook restrictions are enforced through software, the ultimate bypass method involves enabling Developer Mode. This low-level access allows you to bypass most restrictions and install alternative operating systems.</p>
+            
+            <h2>Step-by-Step Instructions</h2>
+            <ol class="steps">
+                <li><strong>Enter Recovery Mode:</strong> Turn off your Chromebook completely. Hold down Esc + Refresh (⟳) and then press the Power button. Release all buttons when you see the recovery screen.</li>
+                
+                <li><strong>Enable Developer Mode:</strong> Press Ctrl + D on the recovery screen. You'll see a prompt asking if you want to turn on Developer Mode.</li>
+                
+                <li><strong>Confirm:</strong> Press Enter to confirm. Your Chromebook will reboot and show a screen with a red exclamation mark.</li>
+                
+                <li><strong>Wait:</strong> The process will take 15-20 minutes as it wipes your device and sets up Developer Mode. Do not interrupt this process.</li>
+                
+                <li><strong>Boot:</strong> After the process completes, your Chromebook will reboot into Developer Mode. Press Ctrl + D at the boot screen to bypass the OS verification warning.</li>
+                
+                <li><strong>Setup:</strong> Complete the initial setup process. You now have full control over your device.</li>
+            </ol>
+            
+            <div class="note">
+                <h3>Note</h3>
+                <p>Some newer Chromebook models have additional protections. For these devices, you may need to physically remove the write-protect screw from the motherboard before enabling Developer Mode.</p>
+            </div>
+            
+            <h2>Chromebook Models and Compatibility</h2>
+            <table class="model-table">
+                <thead>
+                    <tr>
+                        <th>Model Series</th>
+                        <th>Developer Mode</th>
+                        <th>Write-Protect Screw</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Acer C7/C720</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Samsung Series 3</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>HP Chromebook 11/14</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Dell Chromebook 11</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Google Pixelbook</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>ASUS Chromebook Flip</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2>Post-Exploitation</h2>
+            <p>Once in Developer Mode, you can:</p>
+            <ul class="steps">
+                <li>Install Linux applications alongside Chrome OS</li>
+                <li>Enable sideloading of Android apps</li>
+                <li>Install a different Linux distribution</li>
+                <li>Modify system files and settings</li>
+                <li>Bypass web filters and extensions</li>
+            </ul>
+            
+            <div class="risks">
+                <h3>Risks and Considerations</h3>
+                <p>Enabling Developer Mode has several important implications:</p>
+                <ul class="steps">
+                    <li>All local data will be erased during the process</li>
+                    <li>Your Chromebook will show a warning screen every time you boot</li>
+                    <li>Automatic updates may be disabled</li>
+                    <li>You may void your warranty</li>
+                    <li>Your school may detect the change and take disciplinary action</li>
+                </ul>
+            </div>
+            
+            <h2>Detection Avoidance</h2>
+            <p>To avoid detection after enabling Developer Mode:</p>
+            <ol class="steps">
+                <li>Use a generic user picture instead of your photo</li>
+                <li>Don't install obvious Linux applications during school hours</li>
+                <li>Consider dual-booting with the original Chrome OS for school use</li>
+                <li>Be cautious when connecting to school networks</li>
+            </ol>
+        </div>
+        
+        <footer>
+            <p>This information is provided for educational purposes only. The authors do not condone unauthorized modification of school property.</p>
+            <p>© 2023 - Hidden Knowledge</p>
+        </footer>
+    </div>
+
+    <script>
+        // Add subtle visual effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add glitch effect to title
+            const title = document.querySelector('h1');
+            let originalTitle = title.textContent;
+            
+            title.addEventListener('mouseover', () => {
+                let iterations = 0;
+                const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                
+                const interval = setInterval(() => {
+                    title.textContent = title.textContent.split('')
+                        .map((letter, index) => {
+                            if(index < iterations) {
+                                return originalTitle[index];
+                            }
+                            return letters[Math.floor(Math.random() * letters.length)];
+                        })
+                        .join('');
+                    
+                    if(iterations >= originalTitle.length) clearInterval(interval);
+                    
+                    iterations += 1/3;
+                }, 30);
+            });
+            
+            // Add pulse animation to warning box
+            const warning = document.querySelector('.warning');
+            setInterval(() => {
+                warning.style.boxShadow = warning.style.boxShadow === '0 0 20px rgba(255, 0, 0, 0.3)' ? 
+                    '0 0 15px rgba(255, 0, 0, 0.2)' : '0 0 20px rgba(255, 0, 0, 0.3)';
+            }, 1000);
+            
+            // Add subtle background animation
+            document.body.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                document.body.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
+            });
+        });
+    </script>
+</body>
+</html>
