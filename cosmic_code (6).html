@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synex Archives</title>
+    <style>
+        :root {
+            --dark-bg: #0a0a0f;
+            --darker-bg: #050508;
+            --text: #e0e0e0;
+            --accent: #6a0dad;
+            --accent-dark: #4a076d;
+            --accent-glow: #8a2be2;
+            --border: #2a2a35;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--dark-bg);
+            color: var(--text);
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(74, 7, 109, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 85% 30%, rgba(74, 7, 109, 0.03) 0%, transparent 20%),
+                linear-gradient(to bottom, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background-color: rgba(10, 10, 15, 0.8);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        
+        header {
+            background-color: var(--darker-bg);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--text);
+            text-shadow: 0 0 10px var(--accent-glow);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #aaa;
+            letter-spacing: 3px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(42, 42, 53, 0.5);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        nav button {
+            background: none;
+            border: none;
+            color: var(--text);
+            padding: 15px 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav button:hover {
+            color: var(--accent-glow);
+        }
+        
+        nav button.active {
+            color: var(--accent-glow);
+            background-color: rgba(106, 13, 173, 0.1);
+        }
+        
+        nav button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-glow);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        
+        .content {
+            padding: 30px;
+            min-height: 500px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        h2 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            text-shadow: 0 0 5px rgba(138, 43, 226, 0.3);
+        }
+        
+        .entry {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 2px solid var(--accent-dark);
+            transition: all 0.3s ease;
+        }
+        
+        .entry:hover {
+            border-left: 2px solid var(--accent-glow);
+        }
+        
+        .version {
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-shadow: 0 0 5px rgba(138, 43, 226, 0.3);
+        }
+        
+        .date {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .changes {
+            list-style-type: none;
+        }
+        
+        .changes li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .changes li::before {
+            content: '↳';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+        
+        .terms-section {
+            margin-bottom: 25px;
+        }
+        
+        .terms-section h3 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(138, 43, 226, 0.3);
+        }
+        
+        .terms-section p {
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .pulse {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-glow);
+            border-radius: 50%;
+            margin-right: 5px;
+            box-shadow: 0 0 10px var(--accent-glow);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+            
+            nav button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Synex ARCHIVES</h1>
+            <div class="subtitle">CLASSIFIED DOCUMENTATION</div>
+        </header>
+        
+        <nav>
+            <button class="active" data-target="changelog">CHANGE LOG</button>
+            <button data-target="terms">TERMS & CONDITIONS</button>
+        </nav>
+        
+        <div class="content">
+            <div id="changelog" class="section active">
+                <h2>VERSION HISTORY</h2>
+                
+                <div class="entry">
+                    <div class="version">v2.4.0 - "Exploits"</div>
+                    <div class="date">August 30th</div>
+                    <ul class="changes">
+                        <li>Adding the 'exploits' tab</li>
+                        <li>Filled with exploits for your chromebook</li>
+                        <li>Lots of exploits added</li>
+                        <li>Improved tutorials</li>
+                    </ul>
+                </div>
+                
+                <div class="entry">
+                    <div class="version">v2.3.5 - "Phantom"</div>
+                    <div class="date">August 29, 2025</div>
+                    <ul class="changes">
+                        <li>Tested and published</li>
+                        <li>Tested at school and using teachers device.</li>
+                        <li>Completly invisable to Hapara</li>
+                        <li>Test version</li>
+                    </ul>
+                </div>
+                
+                <div class="entry">
+                    <div class="version">v2.2.1 - "Wraith"</div>
+                    <div class="date">May 3, 2023</div>
+                    <ul class="changes">
+                        <li>Initialized shadow synchronization matrix</li>
+                        <li>Implemented paranormal event logging</li>
+                        <li>Fixed temporal displacement issue</li>
+                        <li>Enhanced mystical encryption algorithms</li>
+                    </ul>
+                </div>
+                
+                <div class="entry">
+                    <div class="version">v2.1.0 - " "</div>
+                    <div class="date">February 28, 2023</div>
+                    <ul class="changes">
+                        <li>. </li>
+                        <li> .</li>
+                        <li>. </li>
+                        <li>. </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="terms" class="section">
+                <h2> AGREEMENT </h2>
+                
+                <div class="terms-section">
+                    <h3>1. ACCEPTANCE</h3>
+                    <p>By accessing these archives, you acknowledge that any concicounces are your fault and not the site owner.</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h3>2. KNOWLEDGE USAGE</h3>
+                    <p>The arcane knowledge contained within these archives is for personal use only. Using this site and it's tools for unethical purposes is forbidden.</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h3>3. SOUL BINDING</h3>
+                    <p>The usage of this site automaticly means you have accepted the rules and agreed to only use for educational and legal reasons.</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h3>4. Coming soon!</h3>
+                    <p>Coming soon!</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h3>5. Coming soon!</h3>
+                    <p>Coming soon!</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h3>6. Coming soon!</h3>
+                    <p>Coming soon!</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p><span class="pulse"></span> ACCESS GRANTED :: ENTER AT YOUR OWN RISK</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('nav button');
+            const sections = document.querySelectorAll('.section');
+            
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    
+                    // Update active button
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show active section
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === target) {
+                            section.classList.add('active');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
