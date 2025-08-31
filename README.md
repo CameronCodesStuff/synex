@@ -44,5 +44,5 @@ This project is just for **fun and educational purposes**. Please explore respon
 [Github](https://cameroncodesstuff.github.io/synex/)
 [Vercel](https://synex.vercel.app)
 [Netlify](https://ccssynex.netlify.app/))
-[Render]((https://synex-5u2u.onrender.com/))
+[Render](https://synex-5u2u.onrender.com/))
 
