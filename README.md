@@ -39,3 +39,10 @@ Want to add your own games, hidden pages, or Easter eggs?
 
 ## ⚡ Disclaimer
 This project is just for **fun and educational purposes**. Please explore responsibly.  
+
+
+[Github](https://cameroncodesstuff.github.io/synex/)
+[Vercel](https://synex.vercel.app)
+[Netlify](https://ccssynex.netlify.app/))
+[Render]((https://synex-5u2u.onrender.com/))
+
