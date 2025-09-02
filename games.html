@@ -308,7 +308,6 @@
                     </div>
                 </div>
                 
-                <!-- Game 2 -->
                 <div class="game-card" data-title="slope" data-desc="roll down a hill and dodge obstacles">
                     <div class="game-thumb">
                         <img src="https://funblocked-games.com/images/slope.jpg" alt="Slope">
@@ -320,7 +319,6 @@
                     </div>
                 </div>
                 
-                <!-- Game 3 -->
                 <div class="game-card" data-title="slitherio" data-desc="multiplayer snake game">
                     <div class="game-thumb">
                         <img src="https://tse4.mm.bing.net/th/id/OIP.3ILfqwHUHsgkLKtRA2fPsAHaEK?pid=Api" alt="Slither.io">
@@ -337,7 +335,6 @@
         <section class="all-games-section">
             <h2 class="section-title">All Games</h2>
             <div class="all-games" id="allGames">
-                <!-- Original games -->
                 <div class="game-item" data-title="shell shockers" data-desc="multiplayer egg combat game">
                     <div class="game-item-thumb">
                         <img src="https://tse1.mm.bing.net/th/id/OIP.lBnI7OoiuRXTaUwJ9WoK6AHaEH?pid=Api&P=0&h=180" alt="Shell Shockers">
@@ -418,7 +415,6 @@
                     </div>
                 </div>
                 
-                <!-- New games from your list -->
                 <div class="game-item" data-title="obby but youre on a bike" data-desc="obstacle course on a bike">
                     <div class="game-item-thumb">
                         <img src="https://tr.rbxcdn.com/180DAY-0aee4808db5c1ebae4fa0c0edae0d78c/768/432/Image/Webp/noFilter" alt="Obby But You're On A Bike">
@@ -599,7 +595,6 @@
                     </div>
                 </div>
                 
-                <!-- Tiny Fishing Game -->
                 <div class="game-item" data-title="tiny fishing" data-desc="fishing game with upgrades">
                     <div class="game-item-thumb">
                         <img src="https://w8.snokido.com/img/large/tiny-fishing.jpg">
@@ -610,7 +605,6 @@
                     </div>
                 </div>
                 
-                <!-- World's Hardest Game -->
                 <div class="game-item" data-title="worlds hardest game" data-desc="challenging puzzle game">
                     <div class="game-item-thumb">
                         <img src="https://assetsio.reedpopcdn.com/co2kot.jpg?width=1920&height=1920&fit=bounds&quality=80&format=jpg&auto=webp" alt="World's Hardest Game">
@@ -621,7 +615,6 @@
                     </div>
                 </div>
                 
-                <!-- New games from your request -->
                 <div class="game-item" data-title="moto x3m" data-desc="motorcycle stunt racing game">
                     <div class="game-item-thumb">
                         <img src="https://i.ytimg.com/vi/otpgh_iLy1M/hqdefault.jpg" alt="Moto X3M">
@@ -752,7 +745,6 @@
                     </div>
                 </div>
                 
-                <!-- New games from your request -->
                 <div class="game-item" data-title="1v1lol" data-desc="1v1 building and shooting game">
                     <div class="game-item-thumb">
                         <img src="https://tse1.mm.bing.net/th/id/OIP.jv6iR5gwlta2uwmJ-zoJmgHaHa?pid=Api&P=0&h=180" alt="1v1 LOL">
@@ -804,7 +796,6 @@
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Particles.js configuration for the animated background
         particlesJS("particles-js", {
             particles: {
                 number: { value: 80, density: { enable: true, value_area: 800 } },
@@ -840,17 +831,15 @@
             retina_detect: true
         });
 
-        // Function to open games in a new about:blank tab with iframe
         function openGameInIframe(url) {
-            // Create a new window with about:blank
             const newWindow = window.open('about:blank', '_blank');
             
-            // Create HTML structure with iframe
             newWindow.document.write(`
                 <!DOCTYPE html>
                 <html>
                 <head>
                     <title>Synex</title>
+                      <link rel="icon" href="https://avatars.githubusercontent.com/u/151978475?v=4" type="image/png" />
                     <style>
                         * {
                             margin: 0;
@@ -932,15 +921,12 @@
             newWindow.document.close();
         }
 
-        // Add event listeners to all play buttons
         document.addEventListener('DOMContentLoaded', function() {
             const playButtons = document.querySelectorAll('.play-btn, .game-item-play');
             
             playButtons.forEach(button => {
-                // Remove any existing onclick handlers
                 button.removeAttribute('onclick');
                 
-                // Add new click event listener
                 button.addEventListener('click', function() {
                     const gameUrl = this.getAttribute('data-url');
                     if (gameUrl) {
@@ -949,14 +935,12 @@
                 });
             });
             
-            // Search functionality
             const searchInput = document.getElementById('searchInput');
             const searchButton = document.getElementById('searchButton');
             const featuredGames = document.getElementById('featuredGames');
             const allGames = document.getElementById('allGames');
             const gameCards = document.querySelectorAll('.game-card, .game-item');
             
-            // Function to filter games based on search input
             function filterGames() {
                 const searchTerm = searchInput.value.toLowerCase().trim();
                 let hasResults = false;
@@ -973,7 +957,6 @@
                     }
                 });
                 
-                // Show no results message if no games match the search
                 let noResultsMsg = document.querySelector('.no-results');
                 if (!hasResults) {
                     if (!noResultsMsg) {
@@ -987,7 +970,6 @@
                 }
             }
             
-            // Event listeners for search
             searchButton.addEventListener('click', filterGames);
             searchInput.addEventListener('keyup', function(e) {
                 if (e.key === 'Enter') {
@@ -995,7 +977,6 @@
                 }
             });
             
-            // Clear search when the user clears the input
             searchInput.addEventListener('input', function() {
                 if (searchInput.value === '') {
                     gameCards.forEach(card => {
