@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcane Instruction Manual</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap');
+        
+        :root {
+            --parchment: #f0e6d2;
+            --ink: #1a1208;
+            --blood: #8a0303;
+            --gold: #c9b037;
+            --shadow: rgba(0, 0, 0, 0.7);
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0a0602;
+            color: var(--ink);
+            font-family: 'MedievalSharp', cursive;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23080201"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%230d0703" stroke-width="0.5"/></svg>');
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .manual-container {
+            width: 90%;
+            max-width: 800px;
+            perspective: 1000px;
+            margin: 40px auto;
+        }
+        
+        .manual {
+            background-color: var(--parchment);
+            border-radius: 5px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 0 30px var(--shadow), 0 0 60px rgba(120, 60, 10, 0.2) inset;
+            transform: rotateX(5deg);
+            transition: transform 0.5s;
+            border: 1px solid #a05d2c;
+            background-image: 
+                linear-gradient(rgba(240, 230, 210, 0.3), rgba(200, 190, 170, 0.3)),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%23f0e6d2"/><path d="M0,0 L200,200 M200,0 L0,200" stroke="%23d4c9a8" stroke-width="0.5"/></svg>');
+        }
+        
+        .manual:hover {
+            transform: rotateX(0deg);
+        }
+        
+        .manual::before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            bottom: 5px;
+            left: 5px;
+            border: 1px solid rgba(160, 93, 44, 0.3);
+            pointer-events: none;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--blood);
+            text-align: center;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+        
+        h1::after {
+            content: "";
+            display: block;
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--blood), transparent);
+            margin: 15px auto;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 30px;
+            border-bottom: 1px solid var(--blood);
+            padding-bottom: 5px;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin-top: 25px;
+            color: #5e2a0c;
+        }
+        
+        p {
+            line-height: 1.6;
+            text-align: justify;
+            font-size: 1.1rem;
+        }
+        
+        .warning {
+            background-color: rgba(138, 3, 3, 0.1);
+            border-left: 4px solid var(--blood);
+            padding: 10px 15px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .warning::before {
+            content: "⚠";
+            color: var(--blood);
+            font-size: 1.5rem;
+            position: absolute;
+            left: -30px;
+            top: 5px;
+        }
+        
+        .symbol {
+            font-size: 2rem;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--gold);
+            text-shadow: 0 0 5px rgba(201, 176, 55, 0.5);
+        }
+        
+        .page-number {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 0.9rem;
+            color: #5e2a0c;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+        }
+        
+        .corner-tl {
+            top: 0;
+            left: 0;
+            border-top: 2px solid var(--gold);
+            border-left: 2px solid var(--gold);
+        }
+        
+        .corner-tr {
+            top: 0;
+            right: 0;
+            border-top: 2px solid var(--gold);
+            border-right: 2px solid var(--gold);
+        }
+        
+        .corner-bl {
+            bottom: 0;
+            left: 0;
+            border-bottom: 2px solid var(--gold);
+            border-left: 2px solid var(--gold);
+        }
+        
+        .corner-br {
+            bottom: 0;
+            right: 0;
+            border-bottom: 2px solid var(--gold);
+            border-right: 2px solid var(--gold);
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        
+        ul li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        ul li::before {
+            content: "✥";
+            color: var(--blood);
+            position: absolute;
+            left: -20px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #5e2a0c;
+        }
+        
+        .seal {
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, rgba(201,176,55,0.1) 0%, rgba(201,176,55,0) 70%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .seal::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(201,176,55,0.3) 0%, transparent 20%),
+                radial-gradient(circle at 70% 70%, rgba(201,176,55,0.3) 0%, transparent 20%);
+        }
+        
+        .seal-inner {
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        @media (max-width: 600px) {
+            .manual-container {
+                width: 95%;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="manual-container">
+        <div class="manual">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+            
+            <h1>Game Cheats/Glitches</h1>
+            
+            <div class="symbol">✜ ✢ ✣ ✤ ✥ ✦ ✧ ✩ ✪ ✫ ✬ ✭ ✮ ✯ ✰</div>
+            
+            <div class="section">
+                <h2>Preamble</h2>
+                <p>Welcome,this is a 'manual' for all the bugs and glitches found in the 'games'. </p>
+                
+                <p>CCS</p>
+                
+                <div class="warning">
+                    These should be used with caution!
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Glitches</h2>
+                
+                <h3>Slope</h3>
+                <p>Slope has one main glitch, which is just fun to play around with. When you 'die' spam 'enter' and the map glitches out.</p>
+                
+                <h3>Crazy Cars</h3>
+                <p>This is a money glitch. In your 'garage', you can watch an ad to get money. TO keep this short, there is no ad and you can infinitly repeat the cicle easly being able to afford anything in around 20 seconds.</p>
+                
+                <h3>Coming soon!</h3>
+                <p>Coming soon!</p>
+            </div>
+            
+            <div class="section">
+                <h2>Coming soon!</h2>
+                
+                <p>Coming soon!</p>
+                
+                <ul>
+                    <li>Coming soon!</li>
+                    <li>Coming soon!</li>
+                    <li>AComing soon!</li>
+                    <li>Coming soon!</li>
+                    <li>Coming soon!</li>
+                </ul>
+                
+                <div class="warning">
+                    Coming soon!
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Coming soon!</h2>
+                
+                <h3>Coming soon!</h3>
+                <p>Coming soon!</p>
+                
+                <h3>Coming soon!</h3>
+                <p>Coming soon!</p>
+                
+                <h3>Coming soon!</h3>
+                <p>Coming soon!</p>
+                
+                <h3>Coming soon!</h3>
+                <p>Coming soon!</p>
+            </div>
+            
+            <div class="seal">
+                <div class="seal-inner">FOR EYES<br>ONLY</div>
+            </div>
+            
+            <div class="footer">
+                <p>CameronCodesStuff</p>
+                <p>Volume VII of IX</p>
+            </div>
+            
+            <div class="page-number">Page 13</div>
+        </div>
+    </div>
+</body>
+</html>
