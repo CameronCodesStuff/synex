@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Into the Shadows: A Guide to the Dark Web</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Orbitron:wght@400;700&display=swap');
+        
+        :root {
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --text: #e0e0e0;
+            --accent: #8a2be2;
+            --glow: #ff00ff;
+            --link: #00ffff;
+            --link-hover: #ff00ff;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text);
+            font-family: 'Inconsolata', monospace;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 255, 0.05) 0%, transparent 20%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--glow);
+        }
+        
+        h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent);
+            border-left: 3px solid var(--accent);
+            padding-left: 15px;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            margin: 10px 0 20px;
+            opacity: 0.8;
+        }
+        
+        .warning {
+            background-color: rgba(255, 0, 0, 0.1);
+            border-left: 4px solid #ff0000;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .step {
+            background-color: rgba(10, 10, 10, 0.7);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--accent);
+            color: black;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 0 0 0 4px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .links {
+            background-color: var(--darker-bg);
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        
+        .onion-link {
+            font-family: monospace;
+            color: var(--link);
+            word-break: break-all;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            border-left: 2px solid var(--link);
+        }
+        
+        a {
+            color: var(--link);
+            text-decoration: none;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        
+        a:hover {
+            color: var(--link-hover);
+            text-shadow: 0 0 5px var(--link-hover);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .glow {
+            text-shadow: 0 0 5px var(--glow);
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 0.15em solid var(--accent);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 0.15em;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent) }
+        }
+        
+        .pulsate {
+            animation: pulsate 2s ease-out;
+            animation-iteration-count: infinite;
+            opacity: 0.7;
+        }
+        
+        @keyframes pulsate {
+            0% { opacity: 0.7; }
+            50% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Into the Shadows</h1>
+            <p class="subtitle">A Guide to Accessing the Dark Web Safely</p>
+        </header>
+        
+        <div class="warning">
+            <strong>WARNING:</strong> The dark web contains potentially dangerous content and illegal activities. 
+            Proceed with extreme caution. This guide is for educational purposes only.
+        </div>
+        
+        <h2>Step-by-Step Instructions</h2>
+        
+        <div class="step">
+            <div class="step-number">1</div>
+            <h3>Download and Install Tor Browser</h3>
+            <p>The Tor Browser is your gateway to the dark web. It's a modified version of Firefox that routes your traffic through the Tor network.</p>
+            <p>Visit the official Tor Project website at <a href="https://www.torproject.org/" target="_blank">https://www.torproject.org/</a> and download the browser for your operating system.</p>
+            <p class="pulsate">Only download Tor from the official website to avoid malicious software.</p>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">2</div>
+            <h3>Install and Configure Tor Browser</h3>
+            <p>After downloading, install the browser like any other application. When you first launch it, you'll be prompted with a connection window.</p>
+            <p>For most users, the default configuration is sufficient. If you're in a country with internet restrictions, you may need to configure Tor bridges.</p>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">3</div>
+            <h3>Connect to the Tor Network</h3>
+            <p>Click "Connect" to establish a connection to the Tor network. This might take a minute as Tor creates a secure circuit through multiple relays.</p>
+            <p>Once connected, you'll see the Tor Browser homepage confirming you're connected to the Tor network.</p>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">4</div>
+            <h3>Access Onion Sites</h3>
+            <p>You can now access .onion sites by entering their addresses in the address bar. Regular websites (clearnet) will also work through Tor.</p>
+            <p>Here are the onion addresses you requested:</p>
+            <div class="links">
+                <div class="onion-link">http://xmh57jrknzkhv6y3ls3ubitzfqnkrwxhopf5aygthi7d6rplyvk3noyd.onion/</div>
+                <div class="onion-link">http://zqktlwiuavvvqqt4ybvgvi7tyo4hjl5xgfuvpdf6otjiycgwqbym2qad.onion/wiki/index.php/Main_Page</div>
+                <div class="onion-link">http://jaz45aabn5vkemy4jkg4mi4syheisqn2wn2n4fsuitpccdackjwxplad.onion/</div>
+            </div>
+        </div>
+        
+        <h2>How Onion Routing Works</h2>
+        <div class="step">
+            <p>Tor (The Onion Router) works by encrypting and routing your internet traffic through multiple volunteer-operated servers around the world.</p>
+            <p>This process creates layers of encryption (like layers of an onion) that protect your data and obscure your origin.</p>
+            <p>Here's the process:</p>
+            <ol>
+                <li>Your data is encrypted multiple times and sent through a random path of Tor relays</li>
+                <li>Each relay decrypts one layer of encryption to reveal the next destination</li>
+                <li>The final relay (exit node) decrypts the innermost layer and sends your request to the destination website</li>
+                <li>The website response follows the same path back to you</li>
+            </ol>
+            <p>This multi-layered approach ensures that no single relay knows both the origin and destination of the traffic.</p>
+        </div>
+        
+        <h2>Staying Safe and Anonymous</h2>
+        <div class="step">
+            <p>Maintaining safety and anonymity on the dark web requires careful practices:</p>
+            <ul>
+                <li><strong>Never disable security settings:</strong> Keep Tor Browser's security settings at their highest level</li>
+                <li><strong>Don't torrent over Tor:</strong> Torrenting can reveal your IP address and slows down the network for everyone</li>
+                <li><strong>Avoid downloading files:</strong> If you must download, use a virtual machine and disconnect from Tor first</li>
+                <li><strong>Don't enable browser plugins:</strong> Plugins like Flash or QuickTime can bypass Tor and reveal your IP</li>
+                <li><strong>Use cryptocurrency carefully:</strong> If making purchases, understand that blockchain analysis can sometimes de-anonymize transactions</li>
+                <li><strong>Don't share personal information:</strong> Assume anything you share could become public</li>
+                <li><strong>Consider using a VPN with Tor:</strong> For additional security, some experts recommend using a VPN before connecting to Tor</li>
+                <li><strong>Keep your system updated:</strong> Ensure your operating system and security software are current</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>Remember: <span class="glow">Anonymity is a practice, not a product</span>. No tool provides perfect anonymity.</p>
+            <p>This information is provided for educational purposes only. Proceed with caution.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const steps = document.querySelectorAll('.step');
+            
+            steps.forEach(step => {
+                step.addEventListener('mouseenter', () => {
+                    step.style.boxShadow = '0 0 15px rgba(138, 43, 226, 0.5)';
+                });
+                
+                step.addEventListener('mouseleave', () => {
+                    step.style.boxShadow = 'none';
+                });
+            });
+            
+            // Typewriter effect for title
+            const title = document.querySelector('h1');
+            const originalText = title.textContent;
+            title.textContent = '';
+            title.classList.add('typewriter');
+            
+            let i = 0;
+            const typeWriter = () => {
+                if (i < originalText.length) {
+                    title.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                } else {
+                    title.classList.remove('typewriter');
+                }
+            };
+            
+            setTimeout(typeWriter, 1000);
+        });
+    </script>
+</body>
+</html>
