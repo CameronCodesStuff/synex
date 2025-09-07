@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYNEX BREACHED</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #ff0000;
+            font-family: 'Share Tech Mono', monospace;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            border: 1px solid #ff00004d;
+            background-color: rgba(10, 10, 10, 0.8);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+            max-width: 800px;
+            width: 90%;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+            animation: flicker 3s infinite alternate, glitch 5s infinite;
+            color: #ff0000;
+            line-height: 1.2;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: flicker 5s infinite alternate;
+            color: #ff6a6a;
+            text-transform: uppercase;
+        }
+        
+        .warning {
+            color: #ff2a2a;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+        
+        .terminal {
+            background-color: #000;
+            border: 1px solid #ff00004d;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .terminal::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent 0%, #ff000010 50%, transparent 100%);
+            animation: scan 4s linear infinite;
+        }
+        
+        .blink {
+            animation: blink 0.7s infinite;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 3;
+        }
+        
+        .glitch-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23000000'/%3E%3C/svg%3E");
+            mix-blend-mode: multiply;
+            animation: glitch-effect 7s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            }
+            20%, 24%, 55% {
+                opacity: 0.8;
+                text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+            }
+        }
+        
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-5px, 5px);
+            }
+            40% {
+                transform: translate(-5px, -5px);
+            }
+            60% {
+                transform: translate(5px, 5px);
+            }
+            80% {
+                transform: translate(5px, -5px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+        
+        @keyframes scan {
+            0% {
+                top: -100%;
+                opacity: 0.3;
+            }
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+        
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        @keyframes glitch-effect {
+            0% { opacity: 0; }
+            5% { opacity: 0.1; transform: translateX(5px); }
+            10% { opacity: 0; }
+            15% { opacity: 0.2; transform: translateX(-5px); }
+            20% { opacity: 0; }
+            96% { opacity: 0; }
+            97% { opacity: 0.3; transform: translateX(10px); }
+            98% { opacity: 0; }
+            99% { opacity: 0.4; transform: translateX(-10px); }
+            100% { opacity: 0; }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+                letter-spacing: 0.3rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .warning {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="overlay"></div>
+    <div class="glitch-effect"></div>
+    
+    <div class="container">
+        <h1>SYNEX HAS BEEN BREACHED</h1>
+        <div class="subtitle">If you are seeing this, it isn't good!</div>
+        <div class="warning">Something has happened!</div>
+        <div class="warning">Update coming soon.</div>
+        
+        <div class="terminal">
+            <p>> Chat logs being deleted</p>
+            <p>> Credits being hidden</p>
+            <p>> Sensetive infomation being deleted</p>
+            <p>> Site being deactivated till further notice</p>
+            <p>> CONTAINMENT FAILED <span class="blink">_</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Add dynamic glitch effects
+        const title = document.querySelector('h1');
+        
+        function intensifyGlitch() {
+            const intensity = Math.random() * 10;
+            title.style.textShadow = `0 0 ${10 + intensity}px #ff0000, 0 0 ${20 + intensity * 2}px #ff0000`;
+            
+            // Randomly add more intense glitch
+            if (Math.random() > 0.7) {
+                title.style.color = `hsl(${Math.random() * 20}, 100%, 50%)`;
+                setTimeout(() => {
+                    title.style.color = '#ff0000';
+                }, 100);
+            }
+            
+            setTimeout(intensifyGlitch, 300 + Math.random() * 1000);
+        }
+        
+        intensifyGlitch();
+        
+        // Add terminal messages
+        const terminal = document.querySelector('.terminal');
+        const messages = [
+            "> Synex Devs",
+        ];
+        
+        let messageIndex = 0;
+        
+        function addTerminalMessage() {
+            if (messageIndex < messages.length) {
+                const p = document.createElement('p');
+                p.textContent = messages[messageIndex];
+                terminal.appendChild(p);
+                terminal.scrollTop = terminal.scrollHeight;
+                messageIndex++;
+                
+                // Random time between messages
+                const nextMessageTime = Math.random() * 3000 + 1000;
+                setTimeout(addTerminalMessage, nextMessageTime);
+            }
+        }
+        
+        // Start adding messages after a delay
+        setTimeout(addTerminalMessage, 2000);
+    </script>
+</body>
+</html>
