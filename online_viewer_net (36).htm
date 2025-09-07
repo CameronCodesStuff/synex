@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcement</title>
+    <style>
+        /* Base styling */
+        body {
+            background-color: #0a0a14;
+            color: #e0e0e0;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(28, 12, 58, 0.3) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(28, 12, 58, 0.3) 0%, transparent 25%),
+                linear-gradient(to bottom, #0a0a14 0%, #12122a 100%);
+            overflow-x: hidden;
+        }
+
+        /* Container styling */
+        .container {
+            max-width: 700px;
+            padding: 2rem;
+            margin: 2rem;
+            background: rgba(18, 18, 30, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(90, 70, 130, 0.3);
+            position: relative;
+            text-align: center;
+        }
+
+        /* Pseudo-elements for additional visual effects */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            z-index: -1;
+            background: linear-gradient(45deg, #ff00cc, #333399, #00ccff);
+            border-radius: 16px;
+            opacity: 0.2;
+            filter: blur(5px);
+        }
+
+        /* Header styling */
+        h1 {
+            color: #b8a2e6;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(184, 162, 230, 0.5);
+            letter-spacing: 1px;
+        }
+
+        /* Text styling */
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .apology {
+            color: #d4af37;
+            font-style: italic;
+            font-size: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        /* Button/Link styling */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 15px;
+            background: linear-gradient(45deg, #4a1b6b, #2a4b8c);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(45deg, #5a2585, #3560b9);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-form {
+            background: linear-gradient(45deg, #6b1b4a, #8c2a2a);
+        }
+
+        .btn-form:hover {
+            background: linear-gradient(45deg, #85255e, #b93535);
+        }
+
+        /* Decorative elements */
+        .mystic-symbol {
+            font-size: 3rem;
+            margin: 1.5rem 0;
+            opacity: 0.7;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+            100% { opacity: 0.4; transform: scale(1); }
+        }
+
+        /* Particles/glitter effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: rgba(180, 160, 255, 0.7);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <h1>ANNOUNCEMENT</h1>
+        
+        <div class="mystic-symbol">✧</div>
+        
+        <p class="apology">I sincerely apologize for the inconvenience.</p>
+        
+        <p>Please fill out the surver for accses to password protected feautres,</p>
+        
+        <p>user feedback, and report bugs/</p>
+        
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDdc7b236l1mxNdSTEKj33izgLbBeJNdpv1_sTQF7iWLDv6w/viewform?usp=header" class="btn btn-form">Form</a>
+        
+        <p>Thank you!</p>
+        
+        <a href="launcher.html" class="btn">Continue to site</a>
+        
+        <div class="mystic-symbol">❖</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                createParticle();
+            }
+            
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 3 + 1;
+                const posX = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 10 + Math.random() * 20;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}vw`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+                
+                // Restart animation when it ends
+                particle.addEventListener('animationend', () => {
+                    particle.remove();
+                    createParticle();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
