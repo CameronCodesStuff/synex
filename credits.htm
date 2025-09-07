@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mysterious Credits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;
+            z-index: 2;
+        }
+        
+        /* Background effects */
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0a 70%);
+            opacity: 0.8;
+            z-index: 1;
+        }
+        
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            background-color: rgba(180, 180, 180, 0.7);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 15s linear infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Credits styling - FIXED POSITIONING */
+        .credits {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            z-index: 3;
+        }
+        
+        .credit-content {
+            position: relative;
+            width: 100%;
+            animation: fadeIn 3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h1 {
+            font-size: 4.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5rem;
+            margin-bottom: 3rem;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+        }
+        
+        h2 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3rem;
+            margin: 3rem 0 1.5rem;
+            color: #b0b0b0;
+            text-shadow: 0 0 10px rgba(180, 180, 180, 0.6);
+        }
+        
+        p {
+            font-size: 2.2rem;
+            margin: 1.8rem 0;
+            color: #8a8a8a;
+            text-shadow: 0 0 8px rgba(140, 140, 140, 0.5);
+        }
+        
+        .divider {
+            width: 40%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #888, transparent);
+            margin: 3rem auto;
+        }
+        
+        /* Flickering effect */
+        .flicker {
+            animation: flicker 5s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                opacity: 0.6;
+            }
+        }
+        
+        /* Glitch effect */
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch::before {
+            animation: glitch-effect 3s infinite;
+            left: 2px;
+            text-shadow: -1px 0 #ff00ff;
+            clip: rect(44px, 450px, 56px, 0);
+        }
+        
+        .glitch::after {
+            animation: glitch-effect 2s infinite;
+            left: -2px;
+            text-shadow: -1px 0 #00ffff;
+            clip: rect(44px, 450px, 56px, 0);
+        }
+        
+        @keyframes glitch-effect {
+            0% {
+                clip: rect(43px, 9999px, 32px, 0);
+            }
+            5% {
+                clip: rect(12px, 9999px, 74px, 0);
+            }
+            10% {
+                clip: rect(23px, 9999px, 65px, 0);
+            }
+            15% {
+                clip: rect(22px, 9999px, 3px, 0);
+            }
+            20% {
+                clip: rect(15px, 9999px, 97px, 0);
+            }
+            25% {
+                clip: rect(90px, 9999px, 95px, 0);
+            }
+            30% {
+                clip: rect(25px, 9999px, 7px, 0);
+            }
+            35% {
+                clip: rect(15px, 9999px, 24px, 0);
+            }
+            40% {
+                clip: rect(17px, 9999px, 10px, 0);
+            }
+            45% {
+                clip: rect(48px, 9999px, 26px, 0);
+            }
+            50% {
+                clip: rect(92px, 9999px, 100px, 0);
+            }
+            55% {
+                clip: rect(48px, 9999px, 15px, 0);
+            }
+            60% {
+                clip: rect(78px, 9999px, 8px, 0);
+            }
+            65% {
+                clip: rect(5px, 9999px, 8px, 0);
+            }
+            70% {
+                clip: rect(100px, 9999px, 90px, 0);
+            }
+            75% {
+                clip: rect(28px, 9999px, 100px, 0);
+            }
+            80% {
+                clip: rect(88px, 9999px, 6px, 0);
+            }
+            85% {
+                clip: rect(74px, 9999px, 27px, 0);
+            }
+            90% {
+                clip: rect(32px, 9999px, 7px, 0);
+            }
+            95% {
+                clip: rect(12px, 9999px, 87px, 0);
+            }
+            100% {
+                clip: rect(84px, 9999px, 40px, 0);
+            }
+        }
+        
+        .emphasis {
+            color: #ffffff;
+            font-size: 3.5rem;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+        
+        .pulse {
+            animation: pulse 3s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            }
+            100% {
+                transform: scale(1.05);
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="background"></div>
+        <div class="particles" id="particles"></div>
+        
+        <div class="credits">
+            <div class="credit-content">
+                <h1 class="flicker">Synex Credits</h1>
+                <div class="divider"></div>
+                
+                <h2 class="glitch" data-text="Creator">Creator</h2>
+                <p class="emphasis pulse">CameronCodesStuff</p>
+                <div class="divider"></div>
+                
+                <h2>Contributors</h2>
+                <p>Contribute to be here</p>
+                <p>Contribute to be here</p>
+                <p>Contribute to be here</p>
+                <p>Contribute to be here</p>
+                <p>Contribute to be here</p>
+                <div class="divider"></div>
+                
+                <p class="flicker">Synex | CCS</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 500; 
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 6 + 1;
+                const posX = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = 10 + Math.random() * 20;
+                const opacity = Math.random() * 0.8 + 0.2; 
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.opacity = opacity;
+                
+                // Randomize colors slightly for some particles
+                if (Math.random() > 0.7) {
+                    const colorVal = Math.floor(Math.random() * 100 + 155);
+                    particle.style.backgroundColor = `rgba(${colorVal}, ${colorVal}, ${colorVal}, ${opacity})`;
+                }
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Add intermittent flicker to all elements with flicker class
+            const flickerElements = document.querySelectorAll('.flicker');
+            setInterval(() => {
+                flickerElements.forEach(el => {
+                    el.classList.toggle('flicker');
+                    setTimeout(() => el.classList.toggle('flicker'), 100);
+                });
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
