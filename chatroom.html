@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Chat Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            background: #0a0a16;
+            color: #8a8aa3;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #c5c5d8;
+            text-shadow: 0 0 10px rgba(149, 149, 255, 0.5);
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #7a7a8c;
+        }
+        
+        .password-form {
+            background: rgba(20, 20, 35, 0.8);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid #2a2a4a;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(10, 10, 20, 0.8);
+            border: 1px solid #3a3a5a;
+            border-radius: 5px;
+            color: #c5c5d8;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            border-color: #5a5a8a;
+            box-shadow: 0 0 10px rgba(90, 90, 138, 0.5);
+        }
+        
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: #2a2a4a;
+            color: #a5a5c8;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        button:hover {
+            background: #3a3a5a;
+            box-shadow: 0 0 15px rgba(90, 90, 138, 0.3);
+        }
+        
+        .message {
+            margin-top: 1.5rem;
+            min-height: 1.5rem;
+            font-size: 0.9rem;
+            color: #ff5555;
+        }
+        
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        .hidden-content {
+            display: none;
+            animation: fadeIn 1.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .chat-container {
+            background: rgba(20, 20, 35, 0.8);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #2a2a4a;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin-top: 2rem;
+        }
+        
+        #messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #3a3a5a;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: rgba(10, 10, 20, 0.8);
+            text-align: left;
+        }
+        
+        #messages p {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        
+        .chat-inputs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        #username {
+            width: 30%;
+        }
+        
+        #input {
+            width: 70%;
+        }
+        
+        .send-btn {
+            width: 100%;
+        }
+        
+        .glow {
+            text-shadow: 0 0 10px rgba(149, 149, 255, 0.7);
+            color: #e5e5f0;
+        }
+        
+        .user-count {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #7a7a8c;
+        }
+        
+        .timestamp {
+            font-size: 0.7rem;
+            color: #5a5a7a;
+            margin-left: 0.5rem;
+        }
+        
+        .system-msg {
+            color: #5a7a9a;
+            font-style: italic;
+        }
+        
+        .loading {
+            color: #7a7a8c;
+            text-align: center;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <div id="password-entry">
+            <h1>SECRET <span class="glow">PORTAL</span></h1>
+            <p class="subtitle">Enter the password to access the hidden chatroom</p>
+            
+            <div class="password-form">
+                <div class="input-group">
+                    <input type="password" id="password-input" placeholder="Enter secret password" autocomplete="off">
+                </div>
+                <button id="enter-btn">ENTER</button>
+                <p class="message" id="message"></p>
+            </div>
+        </div>
+        
+        <div class="hidden-content" id="hidden-content">
+            <h1>CHAT <span class="glow">PORTAL</span></h1>
+            <p class="subtitle">Communicate with other initiates</p>
+            
+            <div class="chat-container">
+                <div id="messages">
+                    <p class="loading">Loading messages...</p>
+                </div>
+                
+                <div class="chat-inputs">
+                    <input type="text" id="username" placeholder="Name" maxlength="15">
+                    <input type="text" id="input" placeholder="Type a message">
+                </div>
+                <button class="send-btn" onclick="sendMessage()">Send Message</button>
+                
+                <p class="user-count">Users online: <span id="user-count">0</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase App (core Firebase SDK) -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDw0d9ZbnxSffYO9JUx8D-CYSFl21L-250",
+            authDomain: "chat-9659e.firebaseapp.com",
+            databaseURL: "https://chat-9659e-default-rtdb.firebaseio.com",
+            projectId: "chat-9659e",
+            storageBucket: "chat-9659e.firebasestorage.app",
+            messagingSenderId: "926336417598",
+            appId: "1:926336417598:web:a73c513f680e74c9a8b66f",
+            measurementId: "G-BYTTDPY48S"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Make these available globally
+        window.firebaseDatabase = database;
+        window.firebaseRef = ref;
+        window.firebasePush = push;
+        window.firebaseOnChildAdded = onChildAdded;
+        window.firebaseServerTimestamp = serverTimestamp;
+    </script>
+
+    <script>
+        // Create stars for background
+        const starsContainer = document.getElementById('stars');
+        const starCount = 150;
+        
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            const size = Math.random() * 3;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            
+            const duration = 2 + Math.random() * 8;
+            const delay = Math.random() * 5;
+            star.style.animationDuration = `${duration}s`;
+            star.style.animationDelay = `${delay}s`;
+            
+            starsContainer.appendChild(star);
+        }
+        
+        // Password check functionality
+        const passwordInput = document.getElementById('password-input');
+        const enterBtn = document.getElementById('enter-btn');
+        const message = document.getElementById('message');
+        const passwordEntry = document.getElementById('password-entry');
+        const hiddenContent = document.getElementById('hidden-content');
+        
+        const correctPassword = "exclude";
+        
+        function checkPassword() {
+            if (passwordInput.value === correctPassword) {
+                passwordEntry.style.display = 'none';
+                hiddenContent.style.display = 'block';
+                initializeChat();
+            } else {
+                message.textContent = "Incorrect password. Try again.";
+                passwordInput.value = '';
+                passwordInput.focus();
+                
+                // Shake animation for wrong password
+                passwordEntry.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    passwordEntry.style.animation = '';
+                }, 500);
+            }
+        }
+        
+        enterBtn.addEventListener('click', checkPassword);
+        
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+        
+        // Add shake animation for wrong password
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                20%, 40%, 60%, 80% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Focus input on load
+        window.onload = () => {
+            passwordInput.focus();
+        };
+        
+        // Chat functionality with Firebase
+        function initializeChat() {
+            const messagesDiv = document.getElementById('messages');
+            const input = document.getElementById('input');
+            const usernameInput = document.getElementById('username');
+            
+            // Generate a random username if not provided
+            if (!localStorage.getItem('username')) {
+                const randomName = 'User' + Math.floor(Math.random() * 10000);
+                localStorage.setItem('username', randomName);
+                usernameInput.value = randomName;
+            } else {
+                usernameInput.value = localStorage.getItem('username');
+            }
+            
+            // Clear loading message
+            messagesDiv.innerHTML = '';
+            
+            // Listen for new messages from Firebase
+            const chatRef = window.firebaseRef(window.firebaseDatabase, 'chat');
+            window.firebaseOnChildAdded(chatRef, (snapshot) => {
+                const msg = snapshot.val();
+                addMessage(msg.user, msg.text, msg.timestamp);
+            });
+            
+            // Function to add a message to the chat
+            function addMessage(user, text, timestamp) {
+                const p = document.createElement('p');
+                
+                // Format timestamp if available
+                let timeStr = '';
+                if (timestamp) {
+                    const date = new Date(timestamp);
+                    timeStr = `<span class="timestamp">${date.toLocaleTimeString()}</span>`;
+                }
+                
+                p.innerHTML = `<span class="glow">${user}:</span> ${text} ${timeStr}`;
+                messagesDiv.appendChild(p);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+            
+            // Send message function
+            window.sendMessage = function() {
+                const text = input.value.trim();
+                const user = usernameInput.value.trim() || 'Anonymous';
+                
+                if (text !== '') {
+                    // Push message to Firebase
+                    window.firebasePush(window.firebaseRef(window.firebaseDatabase, 'chat'), {
+                        user: user,
+                        text: text,
+                        timestamp: window.firebaseServerTimestamp()
+                    });
+                    
+                    input.value = '';
+                    
+                    // Save username
+                    localStorage.setItem('username', user);
+                }
+            };
+            
+            // Send message on Enter key
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    window.sendMessage();
+                }
+            });
+            
+            // Update username on change
+            usernameInput.addEventListener('change', () => {
+                localStorage.setItem('username', usernameInput.value);
+            });
+            
+            // Add welcome message
+            addMessage('System', 'Welcome to the secret chatroom. Your messages are encrypted.', Date.now());
+        }
+    </script>
+</body>
+</html>
