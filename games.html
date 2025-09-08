@@ -1067,87 +1067,59 @@
             const newWindow = window.open('about:blank', '_blank');
             
             newWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Synex</title>
-                    <link rel="icon" href="https://avatars.githubusercontent.com/u/151978475?s=32" type="image/png">
-                    <style>
-                        * {
-                            margin: 0;
-                            padding: 0;
-                            box-sizing: border-box;
-                        }
-                        body {
-                            background: #0a0a1a;
-                            overflow: hidden;
-                            font-family: Arial, sans-serif;
-                        }
-                        .header {
-                            background: rgba(25, 25, 50, 0.8);
-                            padding: 10px 20px;
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            color: white;
-                        }
-                        .game-title {
-                            font-size: 18px;
-                            font-weight: bold;
-                            color: #88d3ce;
-                        }
-                        .close-btn {
-                            background: #6e45e2;
-                            color: white;
-                            border: none;
-                            padding: 8px 15px;
-                            border-radius: 5px;
-                            cursor: pointer;
-                            font-size: 14px;
-                        }
-                        .close-btn:hover {
-                            background: #5a35c0;
-                        }
-                        iframe {
-                            width: 100%;
-                            height: calc(100vh - 50px);
-                            border: none;
-                        }
-                        .loading {
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                            text-align: center;
-                            color: white;
-                        }
-                        .spinner {
-                            border: 5px solid rgba(255, 255, 255, 0.3);
-                            border-radius: 50%;
-                            border-top: 5px solid #6e45e2;
-                            width: 50px;
-                            height: 50px;
-                            animation: spin 1s linear infinite;
-                            margin: 0 auto 20px;
-                        }
-                        @keyframes spin {
-                            0% { transform: rotate(0deg); }
-                            100% { transform: rotate(360deg); }
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="header">
-                        <div class="game-title">Synex - CCS</div>
-                        <button class="close-btn" onclick="window.close()">Close Game</button>
-                    </div>
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <p>Loading game, please wait...</p>
-                    </div>
-                    <iframe src="${url}" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" onload="document.querySelector('.loading').style.display='none'"></iframe>
-                </body>
-                </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Synex</title>
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/151978475?s=32" type="image/png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a1a;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+        }
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 5px solid #6e45e2;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <div class="spinner"></div>
+        <p>Loading game, please wait...</p>
+    </div>
+    <iframe src="${url}" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" onload="document.querySelector('.loading').style.display='none'"></iframe>
+</body>
+</html>
+
             `);
             
             newWindow.document.close();
