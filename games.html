@@ -285,9 +285,168 @@
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
         }
+
+        /* Announcement Popup */
+        #announcement-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        #announcement-overlay.hidden {
+            display: none;
+        }
+
+        #announcement-box {
+            background: linear-gradient(135deg, #12122a, #1e1e40);
+            border: 1px solid rgba(110, 69, 226, 0.5);
+            border-radius: 18px;
+            padding: 36px 32px 28px;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(110, 69, 226, 0.2);
+            position: relative;
+            text-align: center;
+        }
+
+        #announcement-box .ann-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #6e45e2, #88d3ce);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+        }
+
+        #announcement-box h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(45deg, #6e45e2, #88d3ce);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #announcement-box p {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        #announcement-box .ann-links {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #announcement-box .ann-links a {
+            display: block;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        #announcement-box .ann-links a.primary {
+            background: linear-gradient(45deg, #6e45e2, #88d3ce);
+            color: white;
+        }
+
+        #announcement-box .ann-links a.secondary {
+            background: rgba(136, 211, 206, 0.12);
+            color: #88d3ce;
+            border: 1px solid rgba(136, 211, 206, 0.3);
+        }
+
+        #announcement-box .ann-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+        }
+
+        #ann-dismiss-btn {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 6px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: color 0.2s;
+        }
+
+        #ann-dismiss-btn:hover {
+            color: #aaa;
+        }
+
+        /* Re-open button (fixed bottom-left) */
+        #ann-reopen-btn {
+            position: fixed;
+            bottom: 18px;
+            left: 18px;
+            z-index: 999;
+            background: linear-gradient(45deg, #6e45e2, #88d3ce);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 9px 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(110, 69, 226, 0.4);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        #ann-reopen-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(110, 69, 226, 0.5);
+        }
+
+        #ann-reopen-btn.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
+    <!-- Announcement Popup -->
+    <div id="announcement-overlay">
+        <div id="announcement-box">
+            <div class="ann-badge">📢 Notice</div>
+            <h2>This site is no longer maintained</h2>
+            <p>This website hasn't been updated in months. Visit the link below for more recent and better projects and sites!</p>
+            <div class="ann-links">
+                <a class="primary" href="https://cameroncodesstuff.github.io/hub/" target="_blank">
+                    🌐 CameronCodesStuff Hub &rarr;
+                </a>
+                <a class="secondary" href="https://unblock3dgam3s.vercel.app/" target="_blank">
+                    🎮 New &amp; Improved Unblocked Games &rarr;
+                </a>
+            </div>
+            <button id="ann-dismiss-btn">Got it, don't show again</button>
+        </div>
+    </div>
+
+    <!-- Re-open announcement button -->
+    <button id="ann-reopen-btn" class="hidden" title="Show announcement">
+        📢 Notice
+    </button>
+
     <div id="particles-js"></div>
     
     <div class="container">
@@ -1699,7 +1858,8 @@
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        particlesJS("particles-js", {
+        function initParticles() {
+          particlesJS("particles-js", {
             particles: {
                 number: { value: 80, density: { enable: true, value_area: 800 } },
                 color: { value: "#6e45e2" },
@@ -1733,6 +1893,17 @@
             },
             retina_detect: true
         });
+        }
+
+        // Run now if library loaded, otherwise fall back to cdnjs mirror
+        if (typeof particlesJS === 'function') {
+            initParticles();
+        } else {
+            var fallback = document.createElement('script');
+            fallback.src = 'https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js';
+            fallback.onload = initParticles;
+            document.head.appendChild(fallback);
+        }
 
         function openGameInIframe(url) {
             const newWindow = window.open('about:blank', '_blank');
@@ -1825,6 +1996,28 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Announcement popup logic
+            const overlay = document.getElementById('announcement-overlay');
+            const dismissBtn = document.getElementById('ann-dismiss-btn');
+            const reopenBtn = document.getElementById('ann-reopen-btn');
+
+            if (localStorage.getItem('synex_ann_dismissed') === 'true') {
+                overlay.classList.add('hidden');
+                reopenBtn.classList.remove('hidden');
+            }
+
+            dismissBtn.addEventListener('click', function() {
+                overlay.classList.add('hidden');
+                reopenBtn.classList.remove('hidden');
+                localStorage.setItem('synex_ann_dismissed', 'true');
+            });
+
+            reopenBtn.addEventListener('click', function() {
+                overlay.classList.remove('hidden');
+                reopenBtn.classList.add('hidden');
+                localStorage.setItem('synex_ann_dismissed', 'false');
+            });
+
             const playButtons = document.querySelectorAll('.play-btn, .game-item-play');
             
             playButtons.forEach(button => {
