@@ -3,6 +3,8 @@
 Welcome to **Synex** – a browser-based playground full of games, secrets, and hidden surprises.  
 
 ---
+[![Sponsor CameronCodesStuff](https://img.shields.io/badge/Sponsor-CameronCodesStuff-ea4aaa?logo=github)](https://github.com/sponsors/CameronCodesStuff)
+---
 
 ## ✨ Features
 - 🕹️ **Games Library** – Play classic and modern browser games directly from the site.  
