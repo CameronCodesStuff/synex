@@ -10,7 +10,7 @@ Welcome to **Synex** – a browser-based playground full of games, secrets, and 
 - 🕹️ **Games Library** – Play classic and modern browser games directly from the site.  
 - 🔒 **Hidden Tabs** – Discover secret areas and unlock hidden content.  
 - 📺 **Secret YouTube** – Watch videos through a hidden player (using an `about:blank` trick).  
-- 🕵️ **Easter Eggs** – Explore the site to uncover all the secrets!  
+- 🕵️ **Easter Eggs** – Explore the site to uncover all the secrets!!!  
 
 ---
 
